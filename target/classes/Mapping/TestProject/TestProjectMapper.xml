@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pkt.Dao.TestProject.TestProjectDao">
+    <select id="getByTestProjectId" resultType="map" parameterType="long" >
+        select *
+        from Test_project
+        where testproject_id = #{testproject_id}
+    </select>
+
+    <insert id="addTestProject" parameterType="map" keyProperty="testproject_id" useGeneratedKeys="true">
+        insert into
+        Test_project(testproject_id, testproject_name, testproject_path, section_id, project_id, version_id, user_id, create_time, modify_time)
+        VALUES( #{testproject_id}, #{testproject_name}, #{testproject_path}, #{section_id}, #{project_id}, #{version_id}, #{user_id}, #{create_time}, #{modify_time} )
+    </insert>
+
+    <delete id="deleteByTestProjectId" parameterType="long" >
+        delete from Test_project
+        where testproject_id = #{testproject_id}
+    </delete>
+
+    <update id="editTestProject" parameterType="map" useGeneratedKeys="true" keyProperty="testproject_id">
+        update Test_project set
+        <if test="testproject_name!='' and testproject_name!=null" >
+            testproject_name = #{testproject_name},
+        </if>
+
+        <if test="testproject_path!='' and testproject_path!=null" >
+            testproject_path = #{testproject_path},
+        </if>
+
+        <if test="section_id!='' and section_id!=null" >
+            section_id = #{section_id},
+        </if>
+
+        <if test="project_id!='' and project_id!=null" >
+            project_id = #{project_id},
+        </if>
+
+        <if test="version_id!='' and version_id!=null" >
+            version_id = #{version_id},
+        </if>
+        <if test="modify_time!='' and modify_time!=null" >
+            modify_time = #{modify_time},
+        </if>
+        testproject_id = #{testproject_id}
+        where testproject_id = #{testproject_id}
+    </update>
+    <select id="queryPageList" resultType="map" parameterType="map" >
+        select * from Test_project
+        where 1=1
+        <if test="testproject_name!='' and testproject_name!=null" >
+            and testproject_name = #{testproject_name}
+        </if>
+
+        <if test="testproject_path!='' and testproject_path!=null" >
+            and testproject_path = #{testproject_path}
+        </if>
+
+        <if test="section_id!='' and section_id!=null" >
+            and section_id = #{section_id}
+        </if>
+
+        <if test="project_id!='' and project_id!=null" >
+            and project_id = #{project_id}
+        </if>
+
+        <if test="version_id!='' and version_id!=null" >
+            and version_id = #{version_id}
+        </if>
+
+        <if test="modify_time!='' and modify_time!=null" >
+            and modify_time = #{modify_time}
+        </if>
+
+        <if test="create_time!='' and create_time!=null" >
+            and create_time = #{create_time}
+        </if>
+        limit #{start} #{end}
+    </select>
+
+    <!-- 通过主键集合批量删除 -->
+    <delete id="batchDeleteTestProject">
+        delete from Test_project where testproject_id in
+        <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+</mapper>

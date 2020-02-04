@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>注册</title>
+</head>
+<body>
+    <h2>我是添加页面</h2>
+    <form name="myform" onSubmit="addUser()" enctype="text/plain" method="post" >
+        用户名：<input id="user_name"  name="user_name" type="text" /><br><br>
+        手机号：<input id="user_phone"  name="user_phone" type="text" /><br><br>
+        邮箱：<input id="user_mail"  name="user_mail" type="text" /><br><br>
+        头像：<input id="user_head"  name="user_head" type="text" /><br><br>
+        <button  onclick="addUser()" name="sub" id="sub" type="submit">添加</button>
+        <button  name="button"  onclick="javascript:history.back(-1);">返回</button>
+    </form>
+</body>
+<script>
+    function addUser() {
+        // var user_name = $("#user_name").val();
+        // var user_phone = $("#user_phone").val();
+        // var user_mail = $("#user_mail").val();
+        // var user_head = $("#user_head").val();
+        // $.post("/register",{user_name:user_name,user_phone:user_phone,user_mail:user_mail,user_head:user_head},function (success) {
+        //     if (success==true){
+        //         alert("添加成功");
+        //         window.location.href ="/index";
+        //     }else {
+        //         alert("添加失败，请检查数据重试！");
+        //     }
+        // })
+        $.ajax({
+                async:true,
+                url: "/register",
+                contentType: "application/json; charset=utf-8",
+                data:{"user_name":"jim","user_phone":"18625364724","user_mail":"dgyevfj@126.com","user_head":"vdjwbh3rbe"},
+                dataType: "json",   //返回的数据是json 格式
+                mothod: "post",
+                success: function (data) {
+                        alert("注册成功");
+                }
+            })
+
+    }
+
+
+</script>
+</html>
+

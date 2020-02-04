@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- "用户信息" mybatis mapper file . generate by codebuilder -->
+<mapper namespace="com.pkt.Dao.Section.SectionInfoDao">
+    <select id="getBySectionId" parameterType="int" resultType="map">
+        select *
+        from section_info
+        where section_id = #{section_id}
+    </select>
+
+    <insert id="addSection" parameterType="map" keyProperty="section_id" useGeneratedKeys="true">
+        insert into
+        section_info(section_id, section_name, level, parent_id)
+        values (#{section_id}, #{section_name}, #{level}, #{parent_id})
+    </insert>
+
+    <delete id="deleteBySectionId" parameterType="int" >
+        delete from section_info
+        where section_id = #{section_id}
+    </delete>
+
+    <update id="editSection" parameterType="map" useGeneratedKeys="true" keyProperty="section_id">
+        update section_info set
+        <if test="section_name != '' and section_name != null">
+            section_name = #{section_name},
+        </if>
+        <if test="level != '' and level != null">
+            level = #{level},
+        </if>
+        <if test="parent_id != '' and parent_id != null">
+            parent_id = #{parent_id},
+        </if>
+        section_id = #{section_id}
+        where section_id = #{section_id}
+    </update>
+
+    <resultMap id="sectionResult" type="com.pkt.Entity.Section.SectionTree">
+        <id column="section_id" property="sectionId"/>
+        <result column="section_name" property="sectionName"/>
+
+        <collection property="sectionTreeList" ofType="com.pkt.Entity.Section.SectionTree" column="section_id" select="queryAllSections" javaType="java.util.ArrayList"/>
+    </resultMap>
+
+    <!--<resultMap id="fullSectionResult" type="com.pkt.Entity.Section.SectionTree">-->
+        <!--<id column="section_id" property="sectionId"/>-->
+        <!--<result column="section_name" property="sectionName"/>-->
+        <!--<collection property="sectionTreeList" ofType="com.pkt.Entity.Section.SectionTree" column="parent_id" select="queryFullSectionById" javaType="java.convert.ArrayList"/>-->
+    <!--</resultMap>-->
+
+    <select id="findFirstSection" resultMap="sectionResult">
+        select section_id, section_name
+        from section_info
+        where parent_id = 0
+    </select>
+
+    <select id="queryAllSections" parameterType="int" resultMap="sectionResult">
+        select section_id, section_name
+        from section_info
+        where parent_id = #{section_id}
+    </select>
+
+    <!--<select id="queryFullSectionById" resultMap="sectionResult">-->
+        <!--select section_id,section_name-->
+        <!--from section_info-->
+        <!--where section_id = #{section_id}-->
+    <!--</select>-->
+
+
+</mapper>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pkt.Dao.Keyword.PyscriptDao">
+    <!-- 通过主键编号获得map对象 -->
+    <select id="getByPyscriptId" parameterType="long" resultType="map" >
+        select *
+        from pyscript_info
+        where pyscript_id = #{pyscript_id}
+    </select>
+
+    <insert id="addPyscript" parameterType="map" keyProperty="pyscript_id" useGeneratedKeys="true">
+        insert into
+            pyscript_info(
+            pyscript_id, pyscript_name, file_path, testproject_id, testmodule_id, suite_id, type, create_time, modify_time
+        ) values (
+                  #{pyscript_id}, #{pyscript_name}, #{file_path}, #{testproject_id}, #{testmodule_id}, #{suite_id}, #{type}, #{create_time}, #{modify_time}
+                 )
+    </insert>
+
+    <delete id="deleteByPyscriptId" parameterType="long" >
+        delete from pyscript_info
+        where pyscript_id = #{pyscript_id}
+    </delete>
+
+    <update id="editPyscript" parameterType="map" useGeneratedKeys="true" keyProperty="pyscript_id">
+        update pyscript_info set
+        <if test="pyscript_name != '' and pyscript_name != null">
+            pyscript_name = #{pyscrit_name},
+        </if>
+        <if test="file_path != '' and file_path != null">
+            file_path = #{file_path},
+        </if>
+        <if test="testproject_id != '' and testproject_id != null"  >
+            testproject_id = #{testproject_id},
+        </if>
+        <if test="testmodule_id != '' and testmodule_id != null"  >
+            testmodule_id = #{testmodule_id},
+        </if>
+        <if test="suite_id != '' and suite_id != null"  >
+            suite_id = #{suite_id},
+        </if>
+        <if test="type != '' and type != null">
+            type = #{type},
+        </if>
+        <if test="modify_time != '' and modify_time != null">
+            modify_time = #{modify_time},
+        </if>
+        pyscript_id = #{pyscript_id}
+        where pyscript_id = #{pyscript_id}
+    </update>
+
+    <select id="queryPageList" resultType="map" parameterType="map" >
+        select * from pyscript_info
+        where 1=1
+        <if test="pyscript_name != '' and pyscript_name != null">
+            and pyscript_name = #{pyscrit_name}
+        </if>
+        <if test="file_path != '' and file_path != null">
+            and file_path = #{file_path}
+        </if>
+        <if test="testproject_id != '' and testproject_id != null"  >
+            and testproject_id = #{testproject_id}
+        </if>
+        <if test="testmodule_id != '' and testmodule_id != null"  >
+            and testmodule_id = #{testmodule_id}
+        </if>
+        <if test="suite_id != '' and suite_id != null"  >
+            and suite_id = #{suite_id}
+        </if>
+        <if test="type != '' and type != null">
+            and type = #{type}
+        </if>
+        <if test="modify_time != '' and modify_time != null">
+            and modify_time = #{modify_time}
+        </if>
+        limit #{start} #{end}
+    </select>
+
+    <select id="getPyscriptByParams" parameterType="map" resultType="java.util.HashMap">
+        select * from pyscript_info
+        where 1=1
+        <if test="pyscript_name != '' and pyscript_name != null">
+            and pyscript_name = #{pyscrit_name}
+        </if>
+        <if test="file_path != '' and file_path != null">
+            and file_path = #{file_path}
+        </if>
+        <if test="testproject_id != '' and testproject_id != null"  >
+            and testproject_id = #{testproject_id}
+        </if>
+        <if test="testmodule_id != '' and testmodule_id != null"  >
+            and testmodule_id = #{testmodule_id}
+        </if>
+        <if test="suite_id != '' and suite_id != null"  >
+            and suite_id = #{suite_id}
+        </if>
+        <if test="type != '' and type != null">
+            and type = #{type}
+        </if>
+        <if test="modify_time != '' and modify_time != null">
+            and modify_time = #{modify_time}
+        </if>
+    </select>
+
+
+    <!-- 通过主键集合批量删除 -->
+    <delete id="batchDeletePyscript">
+        delete from pyscript_info where pyscript_id in
+        <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+</mapper>

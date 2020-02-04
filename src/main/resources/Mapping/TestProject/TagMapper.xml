@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pkt.Dao.TestProject.TagDao">
+    <select id="getByTagId" resultType="map" parameterType="long" >
+        select *
+        from tag_info
+        where tag_id = #{tag_id}
+    </select>
+
+    <insert id="addTagInfo" parameterType="map" keyProperty="tag_id" useGeneratedKeys="true">
+        insert into
+            tag_info(tag_id, tag_name, case_id, suite_id)
+        VALUES(#{tag_id}, #{tag_name}, #{case_id}, #{suite_id})
+    </insert>
+
+    <delete id="deleteByTagId" parameterType="long" >
+        delete from tag_info
+        where tag_id = #{tag_id}
+    </delete>
+
+    <update id="editTag" parameterType="map" useGeneratedKeys="true" keyProperty="tag_id">
+        update tag_info set
+        <if test="tag_name!='' and tag_name!=null" >
+            tag_name = #{tag_name},
+        </if>
+
+        <if test="case_id!='' and case_id!=null" >
+            case_id = #{case_id},
+        </if>
+
+        <if test="suite_id!='' and suite_id!=null" >
+            suite_id = #{suite_id},
+        </if>
+        tag_id = #{tag_id}
+        where tag_id = #{tag_id}
+    </update>
+</mapper>

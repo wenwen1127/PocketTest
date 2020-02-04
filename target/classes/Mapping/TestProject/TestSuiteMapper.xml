@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pkt.Dao.TestProject.TestSuiteDao">
+    <select id="getBySuiteId" resultType="map" parameterType="long" >
+        select *
+        from Test_suite
+        where suite_id = #{suite_id}
+    </select>
+
+    <insert id="addTestSuite" parameterType="map" keyProperty="suite_id" useGeneratedKeys="true">
+        insert into
+            Test_suite(suite_id, suite_name, file_path, testmodule_id, testproject_id, description, create_time, modify_time)
+        VALUES(#{suite_id}, #{suite_name}, #{file_path}, #{testmodule_id}, #{testproject_id}, #{description}, #{create_time}, #{modify_time})
+    </insert>
+
+    <delete id="deleteBySuiteId" parameterType="long" >
+        delete from Test_suite
+        where suite_id = #{suite_id}
+    </delete>
+
+    <update id="editTestSuite" parameterType="map" useGeneratedKeys="true" keyProperty="suite_id">
+        update Test_suite set
+        <if test="suite_name!='' and suite_name!=null" >
+            suite_name = #{suite_name},
+        </if>
+
+        <if test="file_path!='' and file_path!=null" >
+            file_path = #{file_path},
+        </if>
+
+        <if test="testmodule_id!='' and testmodule_id!=null" >
+            testmodule_id = #{testmodule_id},
+        </if>
+
+        <if test="testproject_id!='' and testproject_id!=null" >
+            testproject_id = #{testproject_id},
+        </if>
+
+        <if test="description!='' and description!=null" >
+            description = #{description},
+        </if>
+        <if test="modify_time!='' and modify_time!=null" >
+            modify_time = #{modify_time},
+        </if>
+        suite_id = #{suite_id}
+        where suite_id = #{suite_id}
+    </update>
+
+    <select id="queryPageList" resultType="map" parameterType="map" >
+        select * from Test_suite
+        where 1=1
+        <if test="suite_name!='' and suite_name!=null" >
+            and suite_name = #{suite_name}
+        </if>
+
+        <if test="testmodule_id!='' and testmodule_id!=null" >
+            and testmodule_id = #{testmodule_id}
+        </if>
+
+        <if test="testproject_id!='' and testproject_id!=null" >
+            and testproject_id = #{testproject_id}
+        </if>
+        <if test="modify_time!='' and modify_time!=null" >
+            and modify_time = #{modify_time}
+        </if>
+
+        <if test="create_time!='' and create_time!=null" >
+            and create_time = #{create_time}
+        </if>
+        limit #{start} #{end}
+    </select>
+
+    <!-- 通过主键集合批量删除 -->
+    <delete id="batchDeleteTestSuite">
+        delete from Test_suite where suite_id in
+        <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+</mapper>

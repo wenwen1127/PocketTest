@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- "用户信息" mybatis mapper file . generate by codebuilder -->
+<mapper namespace="com.pkt.Dao.Project.ProjectVersionDao">
+    <select id="getByVersionId" parameterType="int" resultType="map" >
+        select *
+        from project_version
+        where version_id = #{version_id}
+    </select>
+
+    <insert id="addVersion" parameterType="map" keyProperty="version_id" useGeneratedKeys="true">
+        insert into
+        project_version(
+                        version_id, version_number, plan_launchdate, actually_launchdate, plan_devstart, plan_devend, actually_devstart, actually_devend, plan_teststart, plan_testend, actually_teststart, actually_testend, testcasenum, imprint, remark, project_id
+        ) VALUES (
+                        #{version_id}, #{version_number}, #{plan_launchdate}, #{actually_launchdate}, #{plan_devstart}, #{plan_devend}, #{actually_devstart}, #{actually_devend}, #{plan_teststart}, #{plan_testend}, #{actually_teststart}, #{actually_testend}, #{testcasenum}, #{imprint}, #{remark}, #{project_id}
+                         )
+    </insert>
+
+    <delete id="deleteByVersionId" parameterType="int" >
+        delete from project_version
+        where version_id = #{version_id}
+    </delete>
+
+    <update id="editVersion" parameterType="map" useGeneratedKeys="true" keyProperty="version_id">
+        update project_version set
+        <if test="version_number != '' and version_number != null" >
+            version_number = #{version_num},
+        </if>
+
+        <if test="plan_launchdate != '' and plan_launchdate != null">
+            plan_launchdate = #{plan_launchdate},
+        </if>
+
+        <if test="actually_launchdate != '' and actually_launchdate != null">
+            actually_launchdate = #{actually_launchdate},
+        </if>
+
+        <if test="plan_devstart != '' and plan_devstart != null">
+            plan_devstart = #{plan_devstart},
+        </if>
+
+        <if test="plan_devend != '' and plan_devend != null">
+            plan_devend = #{plan_devend},
+        </if>
+
+        <if test="actually_devstart != '' and actually_devstart != null">
+            actually_devstart = #{actually_devstart},
+        </if>
+
+        <if test="actually_devend != '' and actually_devend != null">
+            actually_devend = #{actually_devend},
+        </if>
+
+        <if test="plan_teststart != '' and plan_teststart != null">
+            plan_teststart = #{plan_teststart},
+        </if>
+
+        <if test="plan_testend != '' and plan_testend != null">
+            plan_testend = #{plan_testend},
+        </if>
+
+        <if test="actually_teststart !='' and actually_teststart != null">
+            actually_teststart = #{actually_teststart},
+        </if>
+
+        <if test="actually_testend !='' and actually_testend !=null ">
+            actually_testend = #{actually_testend},
+        </if>
+
+        <if test="testcasenum !='' and testcasenum !=null ">
+            testcasenum = #{testcasenum},
+        </if>
+
+        <if test="imprint !='' and imprint !=null ">
+            imprint = #{imprint},
+        </if>
+
+        <if test="remark !='' and remark !=null ">
+            remark = #{remark},
+        </if>
+
+        <if test="project_id !='' and project_id !=null ">
+            project_id = #{project_id},
+        </if>
+        version_id = #{version_id}
+        where version_id = #{version_id}
+
+    </update>
+</mapper>

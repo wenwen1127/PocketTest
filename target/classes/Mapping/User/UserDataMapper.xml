@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- "用户信息" mybatis mapper file . generate by codebuilder -->
+<mapper namespace="com.pkt.Dao.User.UserInfoDao">
+    <!-- 通过主键编号获得map对象 -->
+    <select id="getUserInfoById" resultType="map" useCache="false" parameterType="long">
+        select
+        user_info.*
+        from user_info
+        where
+        user_info.user_id = #{user_id}
+    </select>
+
+    <insert id="addUser" parameterType="map"  keyProperty="user_id" useGeneratedKeys="true">
+        insert into
+        user_info(
+                  user_id,
+                  user_name,
+                  user_phone,
+                  user_mail,
+                  user_head)
+        values (
+                #{user_id},
+                #{user_name},
+                #{user_phone},
+                #{user_mail},
+                #{user_head})
+    </insert>
+
+    <select id="count" parameterType="map" resultType="int">
+        select
+        count(*)
+        from user_info
+        where user_mail = #{mail} or user_phone = #{phone}
+    </select>
+
+    <select id="queryList" parameterType="map" resultType="map">
+        select
+        user_info.*
+        from user_info
+        where 1=1
+        <if test='user_phone !="" and user_phone!=null'>
+            and user_phone = #{user_phone}
+        </if>
+        <if test='user_mail!="" and user_mail!=null'>
+            and user_mail = #{user_mail}
+        </if>
+    </select>
+
+    <update id="edit" parameterType="map" useGeneratedKeys="true" keyProperty="user_id">
+        update user_info set
+        <if test="user_name != '' and user_name != null">
+            user_name = #{user_name},
+        </if>
+        <if test="user_phone != '' and user_phone != null">
+            user_phone = #{user_phone},
+        </if>
+        <if test="user_mail != '' and user_mail != null">
+            user_mail = #{user_mail},
+        </if>
+        <if test="user_head != '' and user_head != null">
+            user_head = #{user_head},
+        </if>
+        user_id = #{user_id}
+        where user_id = #{user_id}
+    </update>
+
+    <select id="queryPageList" resultType="java.util.HashMap" parameterType="map" >
+        select * from user_info
+        where 1=1
+        <if test="user_name != '' and user_name != null">
+            and user_name = #{user_name}
+        </if>
+        <if test="user_phone != '' and user_phone != null">
+            and user_phone = #{user_phone}
+        </if>
+        <if test="user_mail != '' and user_mail != null">
+            and user_mail = #{user_mail}
+        </if>
+        <if test="user_head != '' and user_head != null">
+            and user_head = #{user_head}
+        </if>
+        <if test="section_name != '' and section_name != null">
+            and user_info.section_id = (select section_id from section_info where section_name = #{section_name})
+        </if>
+    </select>
+</mapper>

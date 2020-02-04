@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pkt.Dao.Keyword.ExternalKeywordDao">
+    <select id="getByExKeywordId" parameterType="int" resultType="map" >
+        select *
+        from external_keyword
+        where exkeyword_id = #{exkeyword_id}
+    </select>
+
+    <insert id="addExternalKeyword" parameterType="map" keyProperty="exkeyword_id" useGeneratedKeys="true">
+        insert into
+            external_keyword(
+            exkeyword_id, exkeyword_name, type, pyscript_id
+        ) values (
+                     #{exkeyword_id}, #{exkeyword_name}, #{type}, #{pyscript_id}
+                 )
+    </insert>
+
+    <delete id="deleteByFuncvtionId" parameterType="int" >
+        delete from external_keyword
+        where exkeyword_id = #{exkeyword_id}
+    </delete>
+
+    <update id="editExternalKeyword" parameterType="map" useGeneratedKeys="true" keyProperty="exkeyword_id">
+        update external_keyword set
+        <if test="exkeyword_name != '' and exkeyword_name != null">
+            exkeyword_name = #{exkeyword_name},
+        </if>
+
+        <if test="type != '' and type != null">
+            type = #{type},
+        </if>
+        <if test="pyscript_id != '' and pyscript_id != null">
+            pyscript_id = #{pyscript_id},
+        </if>
+        exkeyword_id = #{exkeyword_id}
+        where exkeyword_id = #{exkeyword_id}
+    </update>
+
+    <delete id="deleteByParams" parameterType="Map" >
+        delete from external_keyword
+        where 1=1
+        <if test="exkeyword_name != '' and exkeyword_name != null">
+            and exkeyword_name = #{exkeyword_name}
+        </if>
+        <if test="pyscript_id != '' and pyscript_id != null">
+            and pyscript_id = #{pyscript_id}
+        </if>
+    </delete>
+</mapper>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pkt.Dao.RunTask.RunCaseDao">
+<insert id="addRunCaseInfo" parameterType="map" keyProperty="id" useGeneratedKeys="true">
+    insert into run_case_info(
+                    id, case_id, suite_id, user_id, section_id, case_result, case_start_date, case_end_date
+    ) values (
+                    #{id}, #{case_id}, #{suite_id}, #{user_id}, #{section_id}, #{result}, #{caseStartDate}, #{caseEndDate}
+                 )
+
+</insert>
+
+<select id="getRunCaseInfoByParams" parameterType="map" resultType="map" >
+    select * from run_case_info
+    where 1=1
+    <if test="id!='' and id!=null" >
+        and id = #{id}
+    </if>
+
+    <if test="case_id!='' and case_id!=null" >
+        and case_id = #{case_id}
+    </if>
+
+    <if test="suite_id!='' and suite_id!=null" >
+        and suite_id = #{suite_id}
+    </if>
+</select>
+
+
+</mapper>

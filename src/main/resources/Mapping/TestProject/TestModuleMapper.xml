@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pkt.Dao.TestProject.TestModuleDao">
+    <select id="getByTestModuleId" resultType="map" parameterType="long" >
+        select *
+        from Test_Module
+        where testmodule_id = #{testmodule_id}
+    </select>
+
+    <insert id="addTestModule" parameterType="map" keyProperty="testmodule_id" useGeneratedKeys="true">
+        insert into
+            Test_Module(testmodule_id, testmodule_name, testmodule_path, testproject_id, create_time, modify_time)
+        VALUES(#{testmodule_id}, #{testmodule_name}, #{testmodule_path}, #{testproject_id}, #{create_time}, #{modify_time})
+    </insert>
+
+    <delete id="deleteByTestModuleId" parameterType="long" >
+        delete from Test_Module
+        where testmodule_id = #{testmodule_id}
+    </delete>
+
+    <update id="editTestModule" parameterType="map" useGeneratedKeys="true" keyProperty="testmodule_id">
+    update Test_Module set
+    <if test="testmodule_name!='' and testmodule_name!=null" >
+        testmodule_name = #{testmodule_name},
+    </if>
+
+    <if test="testmodule_path!='' and testmodule_path!=null" >
+        testmodule_path = #{testmodule_path},
+    </if>
+
+    <if test="testproject_id!='' and testproject_id!=null" >
+        testproject_id = #{testproject_id},
+    </if>
+    <if test="modify_time!='' and modify_time!=null" >
+        modify_time = #{modify_time},
+    </if>
+    testmodule_id = #{testmodule_id}
+    where testmodule_id = #{testmodule_id}
+    </update>
+    <select id="queryPageList" resultType="map" parameterType="map" >
+        select * from Test_Module
+        where 1=1
+        <if test="testmodule_name!='' and testmodule_name!=null" >
+            and testmodule_name = #{testmodule_name}
+        </if>
+
+        <if test="testmodule_path!='' and testmodule_path!=null" >
+            and testmodule_path = #{testmodule_path}
+        </if>
+
+        <if test="testproject_id!='' and testproject_id!=null" >
+            and testproject_id = #{testproject_id}
+        </if>
+        <if test="create_time!='' and create_time!=null" >
+            and create_time = #{create_time}
+        </if>
+        <if test="modify_time!='' and modify_time!=null" >
+            and modify_time = #{modify_time}
+        </if>
+        limit #{start} #{end}
+    </select>
+    <!-- 通过主键集合批量删除 -->
+    <delete id="batchDeleteTestModule">
+        delete from Test_Module where testmodule_id in
+        <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+</mapper>

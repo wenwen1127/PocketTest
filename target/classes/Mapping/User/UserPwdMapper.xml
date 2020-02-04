@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- "用户信息" mybatis mapper file . generate by codebuilder -->
+<mapper namespace="com.pkt.Dao.User.UserPwdDao">
+    <insert id="add" parameterType="map" keyProperty="user_id" useGeneratedKeys="true">
+        insert into
+        user_password(
+                      user_id, user_password
+        ) values (
+                  #{user_id},
+                  #{user_password}
+                         )
+    </insert>
+
+    <select id="queryList" resultType="map" parameterType="map" >
+        select
+        *
+        from user_password
+        where
+        user_password.user_id = #{user_id} and user_password = #{user_password}
+    </select>
+
+    <update id="ChangePwd" parameterType="map" keyProperty="user_id" useGeneratedKeys="true">
+        update user_password
+        set user_password = #{new_password}
+        where user_id = #{user_id}
+    </update>
+
+    <select id="getByUserId" parameterType="Long" resultType="map" >
+        select *
+        from user_password
+        where user_password.user_id = #{user_id} and user_password = #{user_password}
+    </select>
+</mapper>

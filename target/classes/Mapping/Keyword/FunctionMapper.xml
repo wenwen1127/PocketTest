@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pkt.Dao.Keyword.FunctionDao">
+    <select id="getByFunctionId" parameterType="int" resultType="map" >
+        select *
+        from function_info
+        where function_id = #{function_id}
+    </select>
+
+    <select id="getFunctionByName" parameterType="String" resultType="map" >
+        select *
+        from function_info
+        where function_name = #{function_name}
+    </select>
+
+    <insert id="addFunction" parameterType="map" keyProperty="function_id" useGeneratedKeys="true">
+        insert into
+            function_info(
+            function_id, function_name, type, pyscript_id
+        ) values (
+                  #{function_id}, #{function_name}, #{type}, #{pyscript_id}
+                 )
+    </insert>
+
+    <delete id="deleteByFuncvtionId" parameterType="int" >
+        delete from function_info
+        where function_id = #{function_id}
+    </delete>
+
+    <update id="editFunction" parameterType="map" useGeneratedKeys="true" keyProperty="function_id">
+        update function_info set
+        <if test="function_name != '' and function_name != null">
+            function_name = #{function_name},
+        </if>
+        <if test="type != '' and type != null">
+            type = #{type},
+        </if>
+        <if test="pyscript_id != '' and pyscript_id != null"  >
+            pyscript_id = #{pyscript_id},
+        </if>
+        function_id = #{function_id}
+        where function_id = #{function_id}
+    </update>
+
+    <delete id="deleteByParams" parameterType="Map" >
+        delete from function_info
+        where 1=1
+        <if test="function_name != '' and function_name != null">
+            and function_name = #{function_name}
+        </if>
+        <if test="pyscript_id != '' and pyscript_id != null"  >
+            and pyscript_id = #{pyscript_id}
+        </if>
+    </delete>
+
+
+
+</mapper>
