@@ -83,8 +83,9 @@ DROP TABLE IF EXISTS `project_info`;
 CREATE TABLE `project_info` (
                                 `project_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '项目ID唯一标识',
                                 `project_name` VARCHAR(100) NOT NULL COMMENT '项目名称',
-                                `project_manager` VARCHAR(100) NOT NULL COMMENT '项目经理',
+                                `project_manager` int(11) NOT NULL COMMENT '项目经理ID',
                                 `section_id` int(11) NOT NULL COMMENT '所属部门ID',
+                                `describe` varchar(500) COMMENT '描述',
                                 PRIMARY KEY (`project_id`),
                                 CONSTRAINT `project_info_ibfk` FOREIGN KEY (`section_id`) REFERENCES `section_info` (`section_id`) ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
@@ -92,9 +93,9 @@ CREATE TABLE `project_info` (
 -- ------------------------
 -- Records of project_info
 -- ------------------------
-INSERT INTO `project_info` VALUES (1, '项目1', 'Jerry_Cheng', 1);
-INSERT INTO `project_info` VALUES (2, '项目2', 'Daisy_Han', 7);
-INSERT INTO `project_info` VALUES (3, '项目3', 'Sandy_Xu', 1);
+INSERT INTO `project_info` VALUES (1, '项目1', 1, 1, '功能xxx');
+INSERT INTO `project_info` VALUES (2, '项目2', 2, 7, '实现了xxx');
+INSERT INTO `project_info` VALUES (3, '项目3', 3, 1, '实现了xxx');
 
 -- ---------------------------------
 -- Table structure for project_version

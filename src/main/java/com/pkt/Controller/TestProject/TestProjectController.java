@@ -1,11 +1,13 @@
 package com.pkt.Controller.TestProject;
 
+import com.alibaba.druid.support.json.JSONUtils;
 import com.pkt.Handler.CommonHandler;
 import com.pkt.Handler.FileHandler;
 import com.pkt.Service.Keyword.PyscriptService;
 import com.pkt.Service.TestProject.TestModuleService;
 import com.pkt.Service.TestProject.TestProjectService;
 import com.pkt.Service.TestProject.TestSuiteService;
+import com.sun.corba.se.spi.ior.ObjectKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -142,22 +145,25 @@ public class TestProjectController {
 
     @RequestMapping("/querypagelist")
     @ResponseBody
-    public ModelAndView queryPageList(HttpServletRequest request) {
+    public Map queryPageList(HttpServletRequest request) {
         Map<String, Object> params = handler.getParams(request);
-        ModelAndView res = new ModelAndView();
-        res.addObject("params", params);
-        res.setViewName("/querypagelist");
         try {
-            Map<String,Object> pageList = testProjectService.queryPageList(params);
-            params.put("pagelist", pageList);
-            params.put("msg", "获取分页信息成功");
-            params.put("success",true);
+            List<Map<String, Object>> queryInfoList = testProjectService.queryPageList(params);
+            if(queryInfoList.size() > 0) {
+                System.out.println(queryInfoList);
+                params.put("testProjectInfo", queryInfoList);
+                params.put("msg", "获取测试项目信息成功");
+                params.put("success", true);
+            }else {
+                params.put("success", false);
+                params.put("msg", "没有找到相关测试项目信息");
+            }
         }catch (Exception e){
             e.printStackTrace();
             params.put("msg","服务器异常");
             params.put("success", false);
         }
-        return res;
+        return params;
     }
 
     @RequestMapping("/batchdelete")
@@ -207,4 +213,56 @@ public class TestProjectController {
         return res;
     }
 
+    @RequestMapping("/queryprojectcomponent")
+    @ResponseBody
+    public Map queryProjectComponent(HttpServletRequest request) {
+        Map<String, Object> params = handler.getParams(request);
+        try {
+            System.out.println("querylist" + JSONUtils.toJSONString(params));
+//            long testproject_id = Long.valueOf(params.get("testproject_id").toString());
+            Map<String, Object> projectComponent = new HashMap<String, Object>();
+            List<Map<String, Object>> moduleInfoList = testModuleService.queryPageList(params);
+            List<Map<String, Object>> suiteInfoList = testSuiteService.queryPageList(params);
+            List<Map<String, Object>> scriptInfoList = pyscriptService.queryPageList(params);
+            projectComponent.put("moduleList", moduleInfoList);
+            projectComponent.put("suiteList", suiteInfoList);
+            projectComponent.put("scriptList", scriptInfoList);
+            Map<String, Object> paramMap = new HashMap<String, Object>();
+            for(Map<String,Object> moduleInfo : moduleInfoList) {
+                long testmodle_id = Long.valueOf(moduleInfo.get("testmodule_id").toString());
+                paramMap.put("testmodule_id", testmodle_id);
+                List<Map<String, Object>> moduleSubSuiteList = testSuiteService.queryPageList(paramMap);
+                List<Map<String, Object>> moduleSubScriptList = pyscriptService.queryPageList(paramMap);
+                if (moduleSubSuiteList.size() > 0) {
+                    Map<String, Object> subparamMap = new HashMap<String, Object>();
+                    for (Map<String, Object> moduleSubSuite : moduleSubSuiteList) {
+                        long suite_id = Long.valueOf(moduleSubSuite.get("suite_id").toString());
+                        subparamMap.put("suite_id", suite_id);
+                        List<Map<String, Object>> suiteSubScriptList = pyscriptService.queryPageList(subparamMap);
+                        subparamMap.clear();
+                        moduleSubSuite.put("scriptList", suiteSubScriptList);
+                    }
+                }
+                moduleInfo.put("suiteList", moduleSubSuiteList);
+                moduleInfo.put("scriptList", moduleSubScriptList);
+                paramMap.clear();
+                System.out.println("#####" + moduleSubSuiteList + "\n" + moduleSubScriptList);
+            }
+//            List<Map<String, Object>> queryInfoList = testProjectService.queryPageList(params);
+            if(projectComponent.size() > 0) {
+//                System.out.println(moduleInfoList);
+                params.put("projectComponent", projectComponent);
+                params.put("msg", "获取信息成功");
+                params.put("success", true);
+            }else {
+                params.put("success", false);
+                params.put("msg", "没有找到相关信息");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            params.put("msg","服务器异常");
+            params.put("success", false);
+        }
+        return params;
+    }
 }

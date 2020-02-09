@@ -4,6 +4,7 @@ import com.pkt.Dao.Project.ProjectDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -27,4 +28,7 @@ public class ProjectService {
         return projectDao.editProject(params);
     }
 
+    public List<Map<String, Object>> queryPageList(Map<String,Object> params){
+        return projectDao.queryPageList(params);
+    }
 }

@@ -29,7 +29,7 @@ public class PyscriptService {
         return pyscriptDao.editPyscript(params);
     }
 
-    public Map<String, Object> queryPageList(Map<String, Object> params){
+    public List<Map<String, Object>> queryPageList(Map<String, Object> params){
         return pyscriptDao.queryPageList(params);
     }
 

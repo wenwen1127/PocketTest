@@ -3,6 +3,7 @@ package com.pkt.Dao.TestProject;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 
 @Mapper
@@ -41,7 +42,7 @@ public interface TestModuleDao {
      * @param params
      * @return
      */
-    public Map<String, Object> queryPageList(Map<String, Object> params);
+    public List<Map<String, Object>> queryPageList(Map<String, Object> params);
 
     /**
      * 批量删除

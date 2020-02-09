@@ -14,6 +14,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -152,7 +153,7 @@ public class TestModuleController {
         res.addObject("params", params);
         res.setViewName("/querypagelist");
         try {
-            Map<String,Object> pageList = testModuleService.queryPageList(params);
+            List<Map<String,Object>> pageList = testModuleService.queryPageList(params);
             params.put("pagelist", pageList);
             params.put("msg", "Module获取分页信息成功");
             params.put("success",true);

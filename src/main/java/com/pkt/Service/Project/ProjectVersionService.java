@@ -4,6 +4,7 @@ import com.pkt.Dao.Project.ProjectVersionDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -24,5 +25,7 @@ public class ProjectVersionService {
     public int editVersion(Map<String, Object> params){
         return projectVersionDao.editVersion(params);
     }
-
+    public List<Map<String, Object>> queryPageList(Map<String,Object> params){
+        return projectVersionDao.queryPageList(params);
+    }
 }
