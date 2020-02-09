@@ -13,9 +13,9 @@
     <insert id="addProject" parameterType="map" keyProperty="project_id" useGeneratedKeys="true">
         insert into
         project_info(
-                     project_id, project_name, project_manager, section_id
+                     project_id, project_name, project_manager, section_id, `describe`
         ) values (
-                  #{project_id}, #{project_name}, #{project_manager}, #{section_id}
+                  #{project_id}, #{project_name}, #{project_manager}, #{section_id}, #{describe}
                          )
     </insert>
 
@@ -35,8 +35,26 @@
         <if test="section_id != null and section_id != ''">
             section_id = #{section_id},
         </if>
+        <if test="describe != null and describe != ''">
+            `describe` = #{describe},
+        </if>
         project_id = #{project_id}
         where project_id = #{project_id}
     </update>
 
+    <select id="queryPageList" resultType="java.util.HashMap" parameterType="map" >
+        select project_info.*,section_info.section_name,user_info.* from project_info
+        left join section_info on project_info.section_id=section_info.section_id
+        left join user_info on user_info.user_id=project_info.project_manager
+        where 1=1
+        <if test="project_name != '' and project_name != null">
+            and project_name = #{project_name}
+        </if>
+        <if test="project_manager != '' and project_manager != null">
+            and project_info.project_manager = (select user_id from user_info where user_name = #{project_manager})
+        </if>
+        <if test="section_name != '' and section_name != null">
+            and project_info.section_id = (select section_id from section_info where section_name = #{section_name})
+        </if>
+    </select>
 </mapper>

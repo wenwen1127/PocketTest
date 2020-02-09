@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -214,7 +215,7 @@ public class PyscriptController{
         res.addObject("params", params);
         res.setViewName("/querypagelist");
         try {
-            Map<String,Object> pageList = pyscriptService.queryPageList(params);
+            List<Map<String,Object>> pageList = pyscriptService.queryPageList(params);
             params.put("pagelist", pageList);
             params.put("msg", "获取pyscript分页信息成功");
             params.put("success",true);

@@ -42,7 +42,7 @@ public interface PyscriptDao {
      * @param params
      * @return
      */
-    public Map<String, Object> queryPageList(Map<String, Object> params);
+    public List<Map<String, Object>> queryPageList(Map<String, Object> params);
 
     /**
      * 批量删除

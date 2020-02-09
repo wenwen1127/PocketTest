@@ -205,7 +205,7 @@ public class TestSuiteController {
         res.addObject("params", params);
         res.setViewName("/querypagelist");
         try {
-            Map<String,Object> pageList = testSuiteService.queryPageList(params);
+            List<Map<String,Object>> pageList = testSuiteService.queryPageList(params);
             params.put("pagelist", pageList);
             params.put("msg", "获取suite分页信息成功");
             params.put("success",true);

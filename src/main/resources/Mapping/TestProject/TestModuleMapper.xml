@@ -38,27 +38,13 @@
     testmodule_id = #{testmodule_id}
     where testmodule_id = #{testmodule_id}
     </update>
-    <select id="queryPageList" resultType="map" parameterType="map" >
+
+    <select id="queryPageList" resultType="java.util.HashMap" parameterType="map" >
         select * from Test_Module
         where 1=1
-        <if test="testmodule_name!='' and testmodule_name!=null" >
-            and testmodule_name = #{testmodule_name}
-        </if>
-
-        <if test="testmodule_path!='' and testmodule_path!=null" >
-            and testmodule_path = #{testmodule_path}
-        </if>
-
-        <if test="testproject_id!='' and testproject_id!=null" >
+        <if test="testproject_id != '' and testproject_id != null">
             and testproject_id = #{testproject_id}
         </if>
-        <if test="create_time!='' and create_time!=null" >
-            and create_time = #{create_time}
-        </if>
-        <if test="modify_time!='' and modify_time!=null" >
-            and modify_time = #{modify_time}
-        </if>
-        limit #{start} #{end}
     </select>
     <!-- 通过主键集合批量删除 -->
     <delete id="batchDeleteTestModule">

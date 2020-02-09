@@ -47,7 +47,7 @@
         where suite_id = #{suite_id}
     </update>
 
-    <select id="queryPageList" resultType="map" parameterType="map" >
+    <select id="queryPageList" resultType="java.util.HashMap" parameterType="map" >
         select * from Test_suite
         where 1=1
         <if test="suite_name!='' and suite_name!=null" >
@@ -68,7 +68,6 @@
         <if test="create_time!='' and create_time!=null" >
             and create_time = #{create_time}
         </if>
-        limit #{start} #{end}
     </select>
 
     <!-- 通过主键集合批量删除 -->

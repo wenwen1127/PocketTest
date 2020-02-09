@@ -1,5 +1,6 @@
 package com.pkt.Controller.Project;
 
+import com.alibaba.druid.support.json.JSONUtils;
 import com.pkt.Handler.CommonHandler;
 import com.pkt.Service.Project.ProjectVersionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -88,7 +90,6 @@ public class ProjectVersionController {
         }
         return res;
     }
-
     @RequestMapping("/edit")
     @ResponseBody
     public ModelAndView editProjectVersion(HttpServletRequest request) {
@@ -107,6 +108,33 @@ public class ProjectVersionController {
             params.put("success", false);
         }
         return res;
+    }
+
+    @RequestMapping("/querypagelist")
+    @ResponseBody
+    public Map queryPageList(HttpServletRequest request){
+        Map<String,Object> params = handler.getParams(request);
+        System.out.println("querylist" + JSONUtils.toJSONString(params));
+        try{
+            List<Map<String, Object>> queryInfoList = projectVersionService.queryPageList(params);
+            if(queryInfoList.size() > 0){
+                for (Map<String, Object> queryInfo : queryInfoList){
+                    String project_name = params.get("project_name").toString();
+                    queryInfo.put("project_name", project_name);
+                }
+                params.put("versionInfoList", queryInfoList);
+                System.out.println("****" + queryInfoList);
+                params.put("success", true);
+                params.put("msg", "成功获取版本信息");
+            }else {
+                params.put("success", false);
+                params.put("msg", "没有找到相关版本信息");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return params;
+
     }
 
 }

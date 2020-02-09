@@ -88,4 +88,11 @@
         where version_id = #{version_id}
 
     </update>
+    <select id="queryPageList" resultType="java.util.HashMap" parameterType="map" >
+        select * from project_version
+        where 1=1
+        <if test="project_id != '' and project_id != null">
+            and project_id = #{project_id}
+        </if>
+    </select>
 </mapper>

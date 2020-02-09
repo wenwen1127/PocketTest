@@ -3,6 +3,7 @@ package com.pkt.Dao.Project;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -36,4 +37,10 @@ public interface ProjectVersionDao {
      * @return
      */
     public int editVersion(Map<String, Object> params);
+    /**
+     * 分页获取版本信息
+     * @param params
+     * @return
+     */
+    public List<Map<String, Object>> queryPageList(Map<String,Object> params);
 }

@@ -46,9 +46,14 @@
         testproject_id = #{testproject_id}
         where testproject_id = #{testproject_id}
     </update>
-    <select id="queryPageList" resultType="map" parameterType="map" >
-        select * from Test_project
+    <select id="queryPageList" resultType="java.util.HashMap" parameterType="map" >
+        select Test_project.*, section_info.section_name, project_info.project_name,user_info.user_name,project_version.version_number
+        from Test_project,section_info,project_info,user_info,project_version
         where 1=1
+        and Test_project.section_id=section_info.section_id
+        and Test_project.project_id=project_info.project_id
+        and Test_project.version_id=project_version.version_id
+        and Test_project.user_id=user_info.user_id
         <if test="testproject_name!='' and testproject_name!=null" >
             and testproject_name = #{testproject_name}
         </if>
@@ -58,15 +63,15 @@
         </if>
 
         <if test="section_id!='' and section_id!=null" >
-            and section_id = #{section_id}
+            and Test_project.section_id = #{section_id}
         </if>
 
         <if test="project_id!='' and project_id!=null" >
-            and project_id = #{project_id}
+            and Test_project.project_id = #{project_id}
         </if>
 
         <if test="version_id!='' and version_id!=null" >
-            and version_id = #{version_id}
+            and Test_project.version_id = #{version_id}
         </if>
 
         <if test="modify_time!='' and modify_time!=null" >
@@ -76,7 +81,7 @@
         <if test="create_time!='' and create_time!=null" >
             and create_time = #{create_time}
         </if>
-        limit #{start} #{end}
+
     </select>
 
     <!-- 通过主键集合批量删除 -->
