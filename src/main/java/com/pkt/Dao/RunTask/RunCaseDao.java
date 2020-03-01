@@ -3,6 +3,7 @@ package com.pkt.Dao.RunTask;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 
 @Mapper
@@ -21,5 +22,7 @@ public interface RunCaseDao {
      * @return
      */
     public Map<String, Object> getRunCaseInfoByParams(Map<String, Object> params);
+
+    public List<Map<String, Object>> completedTask(String startDate);
 
 }

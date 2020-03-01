@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -163,5 +164,36 @@ public class TestModuleController {
             params.put("success", false);
         }
         return res;
+    }
+
+    @RequestMapping("/querylist")
+    @ResponseBody
+    public Map queryList(HttpServletRequest request){
+        Map<String,Object> params = handler.getParams(request);
+        try{
+//
+            String[] testprojectName = params.get("testproject_name").toString().split(",");
+            List<Map<String, Object>> queryInfoList = new ArrayList<>();
+            Map<String, Object> nameMap = new HashMap<String, Object>();
+            System.out.println("querylist" + testprojectName);
+            for(String testproName : testprojectName){
+                nameMap.put("testproject_name", testproName);
+                queryInfoList.addAll(testModuleService.queryList(nameMap));
+                System.out.println("****" + queryInfoList);
+                nameMap.clear();
+            }
+            if(queryInfoList.size() > 0){
+                params.put("moduleInfoList", queryInfoList);
+
+                params.put("success", true);
+                params.put("msg", "成功获取版本信息");
+            }else {
+                params.put("success", false);
+                params.put("msg", "没有找到相关版本信息");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return params;
     }
 }

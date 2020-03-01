@@ -97,11 +97,8 @@ public class PyscriptController{
 
     @RequestMapping("/edit")
     @ResponseBody
-    public ModelAndView editTestSuite(HttpServletRequest request) {
+    public Map editTestSuite(HttpServletRequest request) {
         Map<String, Object> params = handler.getParams(request);
-        ModelAndView res = new ModelAndView();
-        res.addObject("params", params);
-        res.setViewName("/edit");
 
         try {
             //  修改module_id和project_id时同时要修改file_path
@@ -143,7 +140,7 @@ public class PyscriptController{
             params.put("msg","服务器异常");
             params.put("success", false);
         }
-        return res;
+        return params;
     }
 
     @RequestMapping("/import")
@@ -228,11 +225,8 @@ public class PyscriptController{
     }
     @RequestMapping("/getcontent")
     @ResponseBody
-    public ModelAndView getPyscriptContent(HttpServletRequest request) {
+    public Map getPyscriptContent(HttpServletRequest request) {
         Map<String, Object> params = handler.getParams(request);
-        ModelAndView res = new ModelAndView();
-        res.addObject("params", params);
-        res.setViewName("/getcontent");
         try {
             String filepath = pyscriptService.getByPyscriptId(Long.valueOf(params.get("pyscript_id").toString())).get("file_path").toString();
             try {
@@ -248,6 +242,6 @@ public class PyscriptController{
             params.put("msg","服务器异常");
             params.put("success", false);
         }
-        return res;
+        return params;
     }
 }

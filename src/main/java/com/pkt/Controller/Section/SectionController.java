@@ -134,6 +134,27 @@ public class SectionController {
         return params;
     }
 
+    @RequestMapping("/queryleafsection")
+    @ResponseBody
+    public Map queryLeafSections(HttpServletRequest request) {
+        Map<String, Object> params = handler.getParams(request);
+        try {
+            List<Map<String, Object>> leafSecList = sectionInfoService.queryLeafSections();
+            System.out.println( leafSecList + "!!!!!Result");
+            params.put("sectionList",leafSecList);
+            params.put("success",true);
+            params.put("msg", "信息获取成功");
+        }catch(Exception e){
+            e.printStackTrace();
+            params.put("msg","服务器异常");
+            params.put("success", false);
+        }
+        return params;
+    }
+
+
+
+
 //    @RequestMapping("/queryfullsection")
 //    @ResponseBody
 //    public ModelAndView queryFullSectionById(HttpServletRequest request) {

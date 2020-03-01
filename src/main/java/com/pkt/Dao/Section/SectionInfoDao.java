@@ -55,4 +55,9 @@ public interface SectionInfoDao {
 
 //    public List<SectionTree> queryFullSectionById(int section_id);
 
+    /**
+     * 查询叶子结点部门
+     * @return
+     */
+    public List<Map<String, Object>> queryLeafSections();
 }

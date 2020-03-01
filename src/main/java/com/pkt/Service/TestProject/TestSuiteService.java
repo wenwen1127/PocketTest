@@ -33,6 +33,14 @@ public class TestSuiteService {
         return testSuiteDao.queryPageList(params);
     }
 
+    public List<Map<String, Object>> queryList(Map<String, Object> params){
+        return testSuiteDao.queryList(params);
+    }
+
+    public List<Map<String, Object>> queryListByCollection (Map<String, Object> params){
+        return testSuiteDao.queryListByCollection(params);
+    }
+
     public int batchDeleteTestSuite(long[] suite_ids){
         return testSuiteDao.batchDeleteTestSuite(suite_ids);
     }

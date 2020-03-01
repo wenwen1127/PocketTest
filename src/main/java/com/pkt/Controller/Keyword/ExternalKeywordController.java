@@ -1,7 +1,12 @@
 package com.pkt.Controller.Keyword;
 
+import checkers.oigj.quals.O;
+import com.pkt.Common.convert.PyscriptConvert;
 import com.pkt.Handler.CommonHandler;
+import com.pkt.Handler.FileHandler;
 import com.pkt.Service.Keyword.ExternalKeywordService;
+import com.pkt.Service.Keyword.GlobalScriptService;
+import com.pkt.Service.Section.SectionInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -17,6 +25,11 @@ import java.util.Map;
 public class ExternalKeywordController {
     @Autowired
     private ExternalKeywordService externalKeywordService;
+    @Autowired
+    private GlobalScriptService globalScriptService;
+    @Autowired
+    private SectionInfoService sectionInfoService;
+
     @Resource
     CommonHandler handler;
 
@@ -107,4 +120,39 @@ public class ExternalKeywordController {
         }
         return res;
     }
+
+    @RequestMapping("/querypagelist")
+    @ResponseBody
+    public Map queryPageList(HttpServletRequest request) {
+        Map<String, Object> params = handler.getParams(request);
+        try {
+            List<Map<String, Object>> scriptList = globalScriptService.queryPageList(params);
+            List<Map<String, Object>> keywordList = new ArrayList<>();
+            String section_name = sectionInfoService.getBySectionId(Integer.valueOf(params.get("section_id").toString())).get("section_name").toString();
+            System.out.println(scriptList);
+            try {
+                for(Map<String, Object> scriptmap : scriptList){
+                    String filepath = scriptmap.get("file_path").toString();
+                    String scriptContent = FileHandler.readFile(filepath);
+                    List<Map<String, Object>> tempList = PyscriptConvert.getGlobalKeyword(scriptContent,scriptmap.get("globalscript_name").toString(), section_name);
+                    System.out.println(tempList);
+                    keywordList.addAll(tempList);
+                }
+            }catch (IOException e1){
+                e1.printStackTrace();
+            }
+            params.put("keywordList", keywordList);
+            params.put("success",true);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            params.put("msg","服务器异常");
+            params.put("success", false);
+        }
+        return params;
+    }
+
+
+
+
 }

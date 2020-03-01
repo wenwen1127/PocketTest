@@ -8,6 +8,7 @@ import com.pkt.Service.TestProject.TestModuleService;
 import com.pkt.Service.TestProject.TestProjectService;
 import com.pkt.Service.TestProject.TestSuiteService;
 import com.sun.corba.se.spi.ior.ObjectKey;
+import com.sun.org.apache.xerces.internal.xs.datatypes.ObjectList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -166,6 +168,31 @@ public class TestProjectController {
         return params;
     }
 
+    @RequestMapping("/querylist")
+    @ResponseBody
+    public Map queryList(HttpServletRequest request) {
+        Map<String, Object> params = handler.getParams(request);
+        try {
+            List<Map<String, Object>> queryInfoList = testProjectService.queryList(params);
+            if(queryInfoList.size() > 0) {
+                System.out.println(queryInfoList);
+                params.put("testProjectInfo", queryInfoList);
+                params.put("msg", "获取信息成功");
+                params.put("success", true);
+            }else {
+                params.put("success", false);
+                params.put("msg", "没有找到相关测试项目信息");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            params.put("msg","服务器异常");
+            params.put("success", false);
+        }
+        return params;
+    }
+
+
+
     @RequestMapping("/batchdelete")
     @ResponseBody
     public ModelAndView batchDelteTestProject(HttpServletRequest request) {
@@ -220,38 +247,52 @@ public class TestProjectController {
         try {
             System.out.println("querylist" + JSONUtils.toJSONString(params));
 //            long testproject_id = Long.valueOf(params.get("testproject_id").toString());
-            Map<String, Object> projectComponent = new HashMap<String, Object>();
-            List<Map<String, Object>> moduleInfoList = testModuleService.queryPageList(params);
-            List<Map<String, Object>> suiteInfoList = testSuiteService.queryPageList(params);
-            List<Map<String, Object>> scriptInfoList = pyscriptService.queryPageList(params);
-            projectComponent.put("moduleList", moduleInfoList);
-            projectComponent.put("suiteList", suiteInfoList);
-            projectComponent.put("scriptList", scriptInfoList);
+            List<Object> dirList = new ArrayList<Object>();
+            Map<String,Object> moduleMap = handler.handlerTestProjectList(testModuleService.queryPageList(params),"Module");
+            dirList.add(moduleMap);
+            List<Map<String, Object>> scriptList = handler.handlerTestProjectObject(pyscriptService.queryPageList(params),"pyscript_name");
+            List<Map<String, Object>> suiteList = handler.handlerTestProjectObject(testSuiteService.queryPageList(params),"suite_name");
+            Map<String, Object> tempMap = new HashMap<>();
+            for (Map<String, Object> projectSubSuite : suiteList) {
+                long suite_id = Long.valueOf(projectSubSuite.get("suite_id").toString());
+                tempMap.put("suite_id", suite_id);
+                List<Map<String, Object>> subScriptList = handler.handlerTestProjectObject(pyscriptService.queryPageList(tempMap),"pyscript_name");
+                projectSubSuite.put("dirname", projectSubSuite.get("suite_name").toString());
+                projectSubSuite.put("subList",subScriptList);
+                tempMap.clear();
+            }
+            dirList.add(handler.handlerTestProjectList(suiteList, "Suite"));
+            dirList.add(handler.handlerTestProjectList(scriptList,"Script"));
+//            List<Map<String,Object>> moduleInfoList = testModuleService.queryList(params);
             Map<String, Object> paramMap = new HashMap<String, Object>();
-            for(Map<String,Object> moduleInfo : moduleInfoList) {
+            for(Map<String,Object> moduleInfo : (List<Map<String,Object>>)moduleMap.get("subList")) {
                 long testmodle_id = Long.valueOf(moduleInfo.get("testmodule_id").toString());
                 paramMap.put("testmodule_id", testmodle_id);
                 List<Map<String, Object>> moduleSubSuiteList = testSuiteService.queryPageList(paramMap);
-                List<Map<String, Object>> moduleSubScriptList = pyscriptService.queryPageList(paramMap);
+                List<Map<String, Object>> moduleSubScriptList = handler.handlerTestProjectObject(pyscriptService.queryPageList(paramMap),"pyscript_name");
+                List moduleSubList = new ArrayList();
+                moduleSubList.add(handler.handlerTestProjectList(moduleSubSuiteList, "Suite"));
+                moduleSubList.add(handler.handlerTestProjectList(moduleSubScriptList, "Script"));
+
+                moduleInfo.put("dirname",moduleInfo.get("testmodule_name").toString());
+                moduleInfo.put("subList", moduleSubList);
+                System.out.println("**********"+moduleInfo);
                 if (moduleSubSuiteList.size() > 0) {
                     Map<String, Object> subparamMap = new HashMap<String, Object>();
                     for (Map<String, Object> moduleSubSuite : moduleSubSuiteList) {
                         long suite_id = Long.valueOf(moduleSubSuite.get("suite_id").toString());
                         subparamMap.put("suite_id", suite_id);
-                        List<Map<String, Object>> suiteSubScriptList = pyscriptService.queryPageList(subparamMap);
+                        List<Map<String, Object>> subScriptList = handler.handlerTestProjectObject(pyscriptService.queryPageList(subparamMap),"pyscript_name");
+                        moduleSubSuite.put("dirname", moduleSubSuite.get("suite_name").toString());
+                        moduleSubSuite.put("subList",subScriptList);
                         subparamMap.clear();
-                        moduleSubSuite.put("scriptList", suiteSubScriptList);
                     }
                 }
-                moduleInfo.put("suiteList", moduleSubSuiteList);
-                moduleInfo.put("scriptList", moduleSubScriptList);
                 paramMap.clear();
-                System.out.println("#####" + moduleSubSuiteList + "\n" + moduleSubScriptList);
             }
-//            List<Map<String, Object>> queryInfoList = testProjectService.queryPageList(params);
-            if(projectComponent.size() > 0) {
-//                System.out.println(moduleInfoList);
-                params.put("projectComponent", projectComponent);
+            if(dirList.size() > 0) {
+                System.out.println(dirList);
+                params.put("projectComponent", dirList);
                 params.put("msg", "获取信息成功");
                 params.put("success", true);
             }else {
@@ -265,4 +306,8 @@ public class TestProjectController {
         }
         return params;
     }
+
+
+
 }
+

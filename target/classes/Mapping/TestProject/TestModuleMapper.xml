@@ -46,6 +46,24 @@
             and testproject_id = #{testproject_id}
         </if>
     </select>
+
+    <select id="queryList" resultType="java.util.HashMap" parameterType="map" >
+        select testmodule_id,testmodule_name from Test_Module
+        where 1=1
+        <if test="testproject_id != '' and testproject_id != null">
+            and testproject_id = #{testproject_id}
+        </if>
+        <if test="testproject_name != '' and testproject_name != null">
+            and testproject_id in (select testproject_id from Test_project where testproject_name = #{testproject_name})
+        </if>
+        <if test="testprojectList!= null and testprojectList.size>0">
+            and testproject_id in
+                <foreach item="testprojectmap" index="index" collection="testprojectList" open="(" separator="," close=")">
+                    #{testprojectmap.testproject_id}
+                </foreach>
+        </if>
+    </select>
+
     <!-- 通过主键集合批量删除 -->
     <delete id="batchDeleteTestModule">
         delete from Test_Module where testmodule_id in
@@ -53,4 +71,5 @@
             #{item}
         </foreach>
     </delete>
+
 </mapper>

@@ -32,6 +32,10 @@ public class TestModuleService {
         return testModuleDao.queryPageList(params);
     }
 
+    public List<Map<String, Object>> queryList(Map<String, Object> params){
+        return testModuleDao.queryList(params);
+    }
+
     public int batchDeleteTestModule(long[] testmodule_ids){
         return testModuleDao.batchDeleteTestModule(testmodule_ids);
     }

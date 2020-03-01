@@ -8,4 +8,6 @@ public class CommonConstant {
 
     public final static String GET_RETURN_PATH = "src/main/resources/bin/BuildInPython/getReturn.py";
 
+    public final static String Global_Script_Folder =  "src/main/resources/usr/local/global_script";
+
 }

@@ -202,14 +202,15 @@ CREATE TABLE `Test_case` (
                             `suite_id` int(11) NOT NULL COMMENT '测试套件ID',
                             `pass_count` int(11) COMMENT '成功个数',
                             `fail_count` int(11) comment '失败个数',
+                            `status` varchar(20) COMMENT '状态',
                             primary key (case_id)
 )ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 -- ------------------------
 -- Records of Test_case
 -- ------------------------
-INSERT INTO `Test_case` VALUES (1, '测试用例一', 2, 3, 1);
-INSERT INTO `Test_case` VALUES (2, '测试用例二', 1, 10, 4);
-INSERT INTO `Test_case` VALUES (3, '测试用例三', 3, 8, 2);
+INSERT INTO `Test_case` VALUES (1, '测试用例一', 2, 3, 1, 'PASS');
+INSERT INTO `Test_case` VALUES (2, '测试用例二', 1, 10, 4, 'PASS');
+INSERT INTO `Test_case` VALUES (3, '测试用例三', 3, 8, 2, 'PASS');
 
 -- ---------------------------------
 -- Table structure for tag_info
@@ -270,12 +271,31 @@ INSERT INTO `pyscript_info` VALUES (1, '脚本一', '/User/mac/Documents/file1',
 INSERT INTO `pyscript_info` VALUES (2, '脚本二', '/User/mac/Documents/file2', 1, 3, 2, 1, '05-30','05-31');
 INSERT INTO `pyscript_info` VALUES (3, '脚本三', '/User/mac/Documents/file3', 2, 1, 3, 1, '06-01','06-02');
 
+DROP TABLE IF EXISTS `global_script`;
+CREATE TABLE `global_script` (
+                                  `globalscript_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '外部关键字的id',
+                                  `globalscript_name` varchar(50) NOT NULL COMMENT '外部关键字名称',
+                                  `section_id` int(11) NOT NULL COMMENT '所属部门ID',
+                                  `create_time` varchar(50) NOT NULL COMMENT '创建时间',
+                                  `modify_time` varchar(50) NOT NULL COMMENT '修改时间',
+                                  `file_path` varchar(200) NOT NULL COMMENT '文件路径',
+                                  primary key (globalscript_id)
+)ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+-- ------------------------
+-- Records of external_keyword
+-- ------------------------
+INSERT INTO `global_script` VALUES (1, '全局脚本1.py', 1, '05-30', '05-31', '/User/mac/Documents/file1');
+INSERT INTO `global_script` VALUES (2, '全局脚本2.py', 2, '06-01', '06-02', '/User/mac/Documents/file2');
+INSERT INTO `global_script` VALUES (3, '全局脚本3.py', 3, '06-18', '07-09', '/User/mac/Documents/file3');
+
+
+
 DROP TABLE IF EXISTS `external_keyword`;
 CREATE TABLE `external_keyword` (
                                `exkeyword_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '外部关键字的id',
                                `exkeyword_name` varchar(50) NOT NULL COMMENT '外部关键字名称',
-                               `type` int(4) NOT NULL COMMENT '类型，0为全局 1为局部',
-                               `pyscript_id` int(11) NOT NULL COMMENT '对应脚本的ID',
+                               `section_id` int(11) NOT NULL COMMENT '所属部门ID',
+                               `globalscript_id` int(11) NOT NULL COMMENT '对应脚本的ID',
                                primary key (exkeyword_id)
 )ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 -- ------------------------

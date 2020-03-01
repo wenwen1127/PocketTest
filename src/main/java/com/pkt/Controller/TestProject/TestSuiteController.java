@@ -1,5 +1,6 @@
 package com.pkt.Controller.TestProject;
 
+import com.alibaba.druid.support.json.JSONUtils;
 import com.pkt.Common.convert.SuiteConvert;
 import com.pkt.Common.relation.SuiteCase;
 import com.pkt.Handler.CommonHandler;
@@ -8,18 +9,24 @@ import com.pkt.Service.TestProject.TestCaseService;
 import com.pkt.Service.TestProject.TestModuleService;
 import com.pkt.Service.TestProject.TestProjectService;
 import com.pkt.Service.TestProject.TestSuiteService;
+
+import com.sun.org.apache.xerces.internal.xs.datatypes.ObjectList;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import sun.jvm.hotspot.oops.Array;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/test/testproject/suite")
@@ -156,7 +163,6 @@ public class TestSuiteController {
                 //   case update due to the suite update
 
                 try {
-
 //                    String caseContentBefore = SuiteConvert.separateSuite(suiteContent).get(SuiteConstant.CASE_TITLE);
 //                    String caseContentAfter  = SuiteConvert.separateSuite(params.get("content").toString()).get(SuiteConstant.CASE_TITLE);
                     String beforeContent = FileHandler.readFile(filepath);
@@ -199,14 +205,11 @@ public class TestSuiteController {
 
     @RequestMapping("/querypagelist")
     @ResponseBody
-    public ModelAndView queryPageList(HttpServletRequest request) {
+    public Map queryPageList(HttpServletRequest request) {
         Map<String, Object> params = handler.getParams(request);
-        ModelAndView res = new ModelAndView();
-        res.addObject("params", params);
-        res.setViewName("/querypagelist");
         try {
             List<Map<String,Object>> pageList = testSuiteService.queryPageList(params);
-            params.put("pagelist", pageList);
+            params.put("suitelist", pageList);
             params.put("msg", "获取suite分页信息成功");
             params.put("success",true);
         }catch (Exception e){
@@ -214,22 +217,81 @@ public class TestSuiteController {
             params.put("msg","服务器异常");
             params.put("success", false);
         }
-        return res;
+        return params;
+    }
+
+    @RequestMapping("/querylist")
+    @ResponseBody
+    public Map queryList(HttpServletRequest request) {
+        Map<String, Object> params = handler.getParams(request);
+        try {
+            Map<String, Object> dataChange = (Map<String, Object>)JSONUtils.parse(params.get("dataChange").toString());
+            dataChange.put("project_name",dataChange.remove("项目"));
+            dataChange.put("section_name",dataChange.remove("部门"));
+            dataChange.put("version_number",dataChange.remove("版本"));
+            System.out.println(dataChange);
+            List<Map<String, Object>> testprojectList = testProjectService.queryListByCollection(dataChange);
+            List<Map<String, Object>> filterList = new ArrayList<>();
+            List<Map<String, Object>> suiteList = new ArrayList<>();
+            Map<String, Object> paraMap = new HashMap<>();
+            if(dataChange.containsKey("测试项目") && ((List)dataChange.get("测试项目")).size()>0) {
+                List<String> testProChange = (List) dataChange.get("测试项目");
+                for (Map<String, Object> testpromap : testprojectList) {
+                    if (testProChange.contains(testpromap.get("testproject_name"))) {
+                        filterList.add(testpromap);
+                    }
+                }
+                System.out.println("testprojectList:" + filterList);
+                List<Map<String, Object>> filterModuleList = new ArrayList<>();
+                paraMap.put("testprojectList", filterList);
+                List<Map<String, Object>> moduleList = testModuleService.queryList(paraMap);
+                System.out.println("modulelist:" + moduleList);
+                paraMap.clear();
+                if(dataChange.containsKey("模块") && ((List)dataChange.get("模块")).size()>0){
+                    List<String> testModuleChange = (List) dataChange.get("模块");
+                    for (Map<String, Object> modulemap : moduleList) {
+                        if (testModuleChange.contains(modulemap.get("testmodule_name"))) {
+                            filterModuleList.add(modulemap);
+                        }
+                    }
+                    paraMap.put("testmoduleList", filterModuleList);
+                }else {
+                    paraMap.put("testprojectList", filterList);
+                }
+
+            }else {
+                filterList = testprojectList;
+                System.out.println("testprojectList:" + filterList);
+                paraMap.put("testprojectList", filterList);
+                System.out.println(paraMap);
+            }
+            suiteList.addAll(testSuiteService.queryListByCollection(paraMap));
+            System.out.println("suiteList" + suiteList);
+            params.put("suiteList", suiteList);
+            params.put("msg", "获取suite信息成功");
+            params.put("success",true);
+        }catch (Exception e){
+            e.printStackTrace();
+            params.put("msg","服务器异常");
+            params.put("success", false);
+        }
+        return params;
     }
 
     @RequestMapping("/getcontent")
     @ResponseBody
-    public ModelAndView getSuiteContent(HttpServletRequest request) {
+    public Map getSuiteContent(HttpServletRequest request) {
         Map<String, Object> params = handler.getParams(request);
-        ModelAndView res = new ModelAndView();
-        res.addObject("params", params);
-        res.setViewName("/getcontent");
+
         try {
             String filepath = testSuiteService.getBySuiteId(Long.valueOf(params.get("suite_id").toString())).get("file_path").toString();
             try {
                 String suiteContent = FileHandler.readFile(filepath);
                 params.put("content", suiteContent);
+                System.out.println(suiteContent);
             }catch (IOException e2){
+                params.put("msg", "获取suite失败");
+                params.put("success",false);
                 e2.printStackTrace();
             }
             params.put("msg", "获取suite内容成功");
@@ -239,7 +301,7 @@ public class TestSuiteController {
             params.put("msg","服务器异常");
             params.put("success", false);
         }
-        return res;
+        return params;
     }
 
     @RequestMapping("/batchdelete")

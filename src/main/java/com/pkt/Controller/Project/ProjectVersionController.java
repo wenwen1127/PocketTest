@@ -11,6 +11,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -134,7 +136,40 @@ public class ProjectVersionController {
             e.printStackTrace();
         }
         return params;
+    }
 
+    @RequestMapping("/querylist")
+    @ResponseBody
+    public Map queryList(HttpServletRequest request){
+        Map<String,Object> params = handler.getParams(request);
+
+        try{
+//            for(String proName : (List<String>)params.get("project_name")){
+//
+//            }
+            String[] projectName = params.get("project_name").toString().split(",");
+            List<Map<String, Object>> queryInfoList = new ArrayList<>();
+            Map<String, Object> nameMap = new HashMap<String, Object>();
+            System.out.println("querylist" + projectName);
+            for(String proName : projectName){
+                nameMap.put("project_name", proName);
+                queryInfoList.addAll(projectVersionService.queryList(nameMap));
+                System.out.println("****" + queryInfoList);
+                nameMap.clear();
+            }
+            if(queryInfoList.size() > 0){
+                params.put("versionInfoList", queryInfoList);
+
+                params.put("success", true);
+                params.put("msg", "成功获取版本信息");
+            }else {
+                params.put("success", false);
+                params.put("msg", "没有找到相关版本信息");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return params;
     }
 
 }

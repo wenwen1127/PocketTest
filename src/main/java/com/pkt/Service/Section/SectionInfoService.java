@@ -39,6 +39,9 @@ public class SectionInfoService {
         return sectionInfoDao.findFirstSection();
     }
 
+    public List<Map<String, Object>> queryLeafSections(){
+        return sectionInfoDao.queryLeafSections();
+    }
 //    public List<SectionTree> queryFullSectionById(int section_id){
 //        return sectionInfoDao.queryFullSectionById(section_id);
 //    }

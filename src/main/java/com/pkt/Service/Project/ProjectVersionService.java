@@ -28,4 +28,7 @@ public class ProjectVersionService {
     public List<Map<String, Object>> queryPageList(Map<String,Object> params){
         return projectVersionDao.queryPageList(params);
     }
+    public List<Map<String, Object>> queryList(Map<String,Object> params){
+        return projectVersionDao.queryList(params);
+    }
 }

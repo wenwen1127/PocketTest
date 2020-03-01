@@ -2,6 +2,7 @@ package com.pkt.Controller.RunTask;
 
 import com.pkt.Common.Exception.TypeConvertException;
 import com.pkt.Common.convert.SuiteConvert;
+import com.pkt.Common.utils.DateUtil;
 import com.pkt.Handler.CommonHandler;
 import com.pkt.Handler.FileHandler;
 import com.pkt.Service.RunTask.RunCaseService;
@@ -9,7 +10,8 @@ import com.pkt.Service.TestProject.TestCaseService;
 import com.pkt.Service.TestProject.TestSuiteService;
 import com.pkt.TestExecution.RunCaseUtil;
 import com.pkt.TestExecution.SetEnvironment;
-import org.assertj.core.util.DateUtil;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,12 +40,13 @@ public class RunCaseController {
 
     @RequestMapping("/run")
     @ResponseBody
-    public ModelAndView RunCaseController(HttpServletRequest request) {
+    public Map RunCaseController(HttpServletRequest request) {
         Map<String, Object> params = handler.getParams(request);
-        ModelAndView res = new ModelAndView();
-        res.addObject("params", params);
-        res.setViewName("/run");
         System.out.println("********* run case start ********");
+        return runCase(params);
+    }
+
+    public Map runCase(Map<String, Object> params){
         long case_id = Long.valueOf(params.get("case_id").toString());
         long suite_id = Long.valueOf(testCaseService.getByCaseId(case_id).get("suite_id").toString());
         params.put("suite_id", suite_id);
@@ -51,7 +54,8 @@ public class RunCaseController {
         try {
             String suiteContent = FileHandler.readFile(file_path);
             Map<String, Object> globalVar = SetEnvironment.getGlobalVariable(suiteContent);
-            Date caseStartDate = DateUtil.now();
+            String caseStartDate = DateUtil.now();;
+            System.out.println("###########" + caseStartDate + "#############");
             params.put("caseStartDate", caseStartDate);
             if (SetEnvironment.runSuiteEnviroment(suiteContent).containsKey(2)) {
                 Map<String, Object> setupReturn = runCaseUtil.runCaseSetup(suiteContent, globalVar, suite_id);
@@ -62,7 +66,8 @@ public class RunCaseController {
                     params.put("caseEndDate",DateUtil.now());
                     runCaseService.addRunCaseInfo(params);
                     testCaseService.updateCaseResult(params);
-                    return res;
+                    params.put("success", false);
+                    return params;
                 }
             }
             String caseName = params.get("case_name").toString();
@@ -76,7 +81,8 @@ public class RunCaseController {
                 params.put("caseEndDate",DateUtil.now());
                 runCaseService.addRunCaseInfo(params);
                 testCaseService.updateCaseResult(params);
-                return res;
+                params.put("success", false);
+                return params;
             }
             if (SetEnvironment.runSuiteEnviroment(suiteContent).containsKey(-2)) {
                 Map<String, Object> teardownReturn = runCaseUtil.runCaseTeardown(suiteContent, globalVar, suite_id);
@@ -86,26 +92,38 @@ public class RunCaseController {
                     params.put("caseEndDate",DateUtil.now());
                     runCaseService.addRunCaseInfo(params);
                     testCaseService.updateCaseResult(params);
-                    return res;
+                    params.put("success", false);
+                    return params;
                 }
             }
             params.put("result", "PASS");
             params.put("caseEndDate",DateUtil.now());
             runCaseService.addRunCaseInfo(params);
             testCaseService.updateCaseResult(params);
-            return res;
+            params.put("success", true);
+            return params;
         } catch (IOException e) {
             e.printStackTrace();
             params.put("result", "FAIL");
             params.put("caseEndDate",DateUtil.now());
             testCaseService.updateCaseResult(params);
-            return res;
+            params.put("success", false);
+            return params;
         } catch (TypeConvertException e1) {
             e1.printStackTrace();
             params.put("caseEndDate",DateUtil.now());
             params.put("result", "FAIL");
             testCaseService.updateCaseResult(params);
-            return res;
+            params.put("success", false);
+            return params;
+        } catch(Exception e2){
+            e2.printStackTrace();
+            params.put("caseEndDate",DateUtil.now());
+            params.put("result", "FAIL");
+            testCaseService.updateCaseResult(params);
+            params.put("success", false);
+            return params;
         }
+
     }
 }

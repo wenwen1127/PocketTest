@@ -95,4 +95,9 @@
             and project_id = #{project_id}
         </if>
     </select>
+
+    <select id="queryList" resultType="java.util.HashMap" parameterType="map" >
+        select version_number, version_id from project_version
+        where project_id in (select project_id from project_info where project_name = #{project_name})
+    </select>
 </mapper>

@@ -31,6 +31,15 @@ public class TestProjectService {
     public List<Map<String, Object>> queryPageList(Map<String, Object> params){
         return testProjectDao.queryPageList(params);
     }
+
+    public List<Map<String, Object>> queryList(Map<String,Object> params){
+        return testProjectDao.queryList(params);
+    }
+
+    public List<Map<String, Object>> queryListByCollection (Map<String, Object> params){
+        return testProjectDao.queryListByCollection(params);
+    }
+
     public int batchDeleteTestProject(long[] testproject_ids){
         return testProjectDao.batchDeleteTestProject(testproject_ids);
     }
