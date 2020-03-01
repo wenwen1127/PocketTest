@@ -36,7 +36,7 @@
         where case_id = #{case_id}
     </update>
 
-    <select id="queryPageList" resultType="map" parameterType="map" >
+    <select id="queryPageList" resultType="java.util.HashMap" parameterType="map" >
         select * from Test_case
         where 1=1
         <if test="case_name!='' and case_name!=null" >
@@ -50,7 +50,9 @@
         <if test="fail_count!='' and fail_count!=null" >
             and fail_count = #{fail_count}
         </if>
-        limit #{start} #{end}
+        <if test="suite_id!='' and suite_id!=null" >
+            and suite_id = #{suite_id}
+        </if>
     </select>
 
     <!-- 通过主键集合批量删除 -->
@@ -87,6 +89,9 @@
         </if>
         <if test="result=='FAIL'">
             fail_count = fail_count + 1,
+        </if>
+        <if test="result != '' and result != null">
+            status = #{result},
         </if>
         case_id = #{case_id}
         where case_id = #{case_id}

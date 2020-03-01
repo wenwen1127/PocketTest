@@ -139,14 +139,13 @@ public class TestCaseController {
 
     @RequestMapping("/querypagelist")
     @ResponseBody
-    public ModelAndView queryPageList(HttpServletRequest request) {
+    public Map queryPageList(HttpServletRequest request) {
         Map<String, Object> params = handler.getParams(request);
-        ModelAndView res = new ModelAndView();
-        res.addObject("params", params);
-        res.setViewName("/querypagelist");
         try {
-            Map<String,Object> pageList = testCaseService.queryPageList(params);
-            params.put("pagelist", pageList);
+            System.out.println(params);
+            List<Map<String,Object>> caseInfoList = testCaseService.queryPageList(params);
+            System.out.println(caseInfoList);
+            params.put("caseInfolist", caseInfoList);
             params.put("msg", "获取case分页信息成功");
             params.put("success",true);
         }catch (Exception e){
@@ -154,8 +153,7 @@ public class TestCaseController {
             params.put("msg","服务器异常");
             params.put("success", false);
         }
-        return res;
+        return params;
     }
-
 
 }

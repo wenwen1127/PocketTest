@@ -2,30 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.pkt.Dao.RunTask.RunCaseDao">
-<insert id="addRunCaseInfo" parameterType="map" keyProperty="id" useGeneratedKeys="true">
-    insert into run_case_info(
-                    id, case_id, suite_id, user_id, section_id, case_result, case_start_date, case_end_date
-    ) values (
-                    #{id}, #{case_id}, #{suite_id}, #{user_id}, #{section_id}, #{result}, #{caseStartDate}, #{caseEndDate}
-                 )
+    <insert id="addRunCaseInfo" parameterType="map" keyProperty="id" useGeneratedKeys="true">
+        insert into run_case_info(
+                        id, case_id, suite_id, user_id, section_id, case_result, case_start_date, case_end_date
+        ) values (
+                        #{id}, #{case_id}, #{suite_id}, #{user_id}, #{section_id}, #{result}, #{caseStartDate}, #{caseEndDate}
+                     )
 
-</insert>
+    </insert>
 
-<select id="getRunCaseInfoByParams" parameterType="map" resultType="map" >
-    select * from run_case_info
-    where 1=1
-    <if test="id!='' and id!=null" >
-        and id = #{id}
-    </if>
+    <select id="getRunCaseInfoByParams" parameterType="map" resultType="map" >
+        select * from run_case_info
+        where 1=1
+        <if test="id!='' and id!=null" >
+            and id = #{id}
+        </if>
 
-    <if test="case_id!='' and case_id!=null" >
-        and case_id = #{case_id}
-    </if>
+        <if test="case_id!='' and case_id!=null" >
+            and case_id = #{case_id}
+        </if>
 
-    <if test="suite_id!='' and suite_id!=null" >
-        and suite_id = #{suite_id}
-    </if>
-</select>
+        <if test="suite_id!='' and suite_id!=null" >
+            and suite_id = #{suite_id}
+        </if>
+    </select>
 
-
+    <select id="completedTask" parameterType="String" resultType="java.util.HashMap" >
+        select run_case_info.*, Test_case.case_name from run_case_info
+        left join Test_case on run_case_info.case_id=Test_case.case_id
+        where unix_timestamp(case_start_date) >= unix_timestamp(#{startDate});
+    </select>
 </mapper>

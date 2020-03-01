@@ -45,6 +45,19 @@ public interface TestProjectDao {
     public List<Map<String, Object>> queryPageList(Map<String, Object> params);
 
     /**
+     * 获取版本信息
+     * @param params
+     * @return
+     */
+    public List<Map<String, Object>> queryList(Map<String,Object> params);
+
+    /**
+     * @param params
+     * @return
+     */
+    public List<Map<String, Object>> queryListByCollection (Map<String, Object> params);
+
+    /**
      * 批量删除
      * @param testproject_ids
      * @return

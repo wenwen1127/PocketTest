@@ -26,17 +26,19 @@ public class RunSuiteController {
 
     @RequestMapping("/run")
     @ResponseBody
-    public ModelAndView getBySuiteId(HttpServletRequest request) {
+    public Map getBySuiteId(HttpServletRequest request) {
         Map<String, Object> params = handler.getParams(request);
-        ModelAndView res = new ModelAndView();
-        res.addObject("params", params);
-        res.setViewName("/run");
         System.out.println("********* suite start ********");
         long suite_id = Long.valueOf(params.get("suite_id").toString());
         String file_path = testSuiteService.getBySuiteId(suite_id).get("file_path").toString();
         Map<String, Object> result = runCaseUtil.runSuite(suite_id, file_path,params);
         params.put("suite_result", result);
-        return res;
+        if(result.get("result").equals("PASS")){
+            params.put("success", true);
+        }else {
+            params.put("success", false);
+        }
+        return params;
     }
 
 }

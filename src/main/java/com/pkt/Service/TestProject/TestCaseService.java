@@ -4,6 +4,7 @@ import com.pkt.Dao.TestProject.TestCaseDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -27,7 +28,7 @@ public class TestCaseService {
         return testCaseDao.editTestCase(params);
     }
 
-    public Map<String, Object> queryPageList(Map<String, Object> params){
+    public List<Map<String, Object>> queryPageList(Map<String, Object> params){
         return testCaseDao.queryPageList(params);
     }
 

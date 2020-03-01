@@ -60,6 +60,12 @@
         where parent_id = #{section_id}
     </select>
 
+    <select id="queryLeafSections" resultType="java.util.HashMap">
+        select section_id, section_name
+        from section_info
+        where section_id not in (select parent_id from section_info)
+    </select>
+
     <!--<select id="queryFullSectionById" resultMap="sectionResult">-->
         <!--select section_id,section_name-->
         <!--from section_info-->

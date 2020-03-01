@@ -45,6 +45,14 @@ public interface TestModuleDao {
     public List<Map<String, Object>> queryPageList(Map<String, Object> params);
 
     /**
+     * 获得列表
+     * @param params
+     * @return
+     */
+    public List<Map<String, Object>> queryList(Map<String, Object> params);
+
+
+    /**
      * 批量删除
      * @param testmodule_ids
      * @return

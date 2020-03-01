@@ -43,4 +43,11 @@ public interface ProjectVersionDao {
      * @return
      */
     public List<Map<String, Object>> queryPageList(Map<String,Object> params);
+
+    /**
+     * 获取版本信息
+     * @param params
+     * @return
+     */
+    public List<Map<String, Object>> queryList(Map<String,Object> params);
 }

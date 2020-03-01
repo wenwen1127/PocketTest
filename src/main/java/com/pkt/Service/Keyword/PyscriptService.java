@@ -33,6 +33,10 @@ public class PyscriptService {
         return pyscriptDao.queryPageList(params);
     }
 
+    public List<Map<String, Object>> queryList(Map<String, Object> params){
+        return pyscriptDao.queryList(params);
+    }
+
     public int batchDeletePyscript(long[] pyscript_ids){
         return pyscriptDao.batchDeletePyscript(pyscript_ids);
     }

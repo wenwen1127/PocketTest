@@ -77,6 +77,33 @@
 
     </select>
 
+    <select id="queryList" resultType="java.util.HashMap" parameterType="map" >
+        select pyscript_id,pyscript_name from pyscript_info
+        where 1=1
+        <if test="pyscript_name != '' and pyscript_name != null">
+            and pyscript_name = #{pyscrit_name}
+        </if>
+        <if test="file_path != '' and file_path != null">
+            and file_path = #{file_path}
+        </if>
+        <if test="testproject_id != '' and testproject_id != null"  >
+            and testproject_id = #{testproject_id}
+        </if>
+        <if test="testmodule_id != '' and testmodule_id != null"  >
+            and testmodule_id = #{testmodule_id}
+        </if>
+        <if test="suite_id != '' and suite_id != null"  >
+            and suite_id = #{suite_id}
+        </if>
+        <if test="type != '' and type != null">
+            and type = #{type}
+        </if>
+        <if test="modify_time != '' and modify_time != null">
+            and modify_time = #{modify_time}
+        </if>
+
+    </select>
+
     <select id="getPyscriptByParams" parameterType="map" resultType="java.util.HashMap">
         select * from pyscript_info
         where 1=1

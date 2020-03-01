@@ -84,6 +84,43 @@
 
     </select>
 
+    <select id="queryList" resultType="java.util.HashMap" parameterType="map" >
+        select testproject_id, testproject_name from Test_project
+
+    </select>
+
+    <select id="queryListByCollection" resultType="java.util.HashMap" parameterType="map" >
+        select * from Test_project
+        where 1=1
+        <if test="section_name != null and section_name.size >0" >
+            and Test_project.section_id in(
+            select section_id from section_info where section_name in
+                <foreach item="section_name" index="index" collection="section_name" open="(" separator="," close=")">
+                      #{section_name}
+                </foreach>
+            )
+        </if>
+
+        <if test="project_name!=null and project_name.size >0" >
+            and Test_project.project_id in(
+              select project_id from project_info where project_name in
+                <foreach item="project_name" index="index" collection="project_name" open="(" separator="," close=")">
+                    #{project_name}
+                </foreach>
+            )
+        </if>
+
+        <if test="version_number!=null and version_number.size >0" >
+            and Test_project.version_id in(
+              select version_id from project_version where version_number in
+                <foreach item="version_number" index="index" collection="version_number" open="(" separator="," close=")">
+                    #{version_number}
+                </foreach>
+            )
+        </if>
+    </select>
+
+
     <!-- 通过主键集合批量删除 -->
     <delete id="batchDeleteTestProject">
         delete from Test_project where testproject_id in
@@ -91,4 +128,5 @@
             #{item}
         </foreach>
     </delete>
+
 </mapper>

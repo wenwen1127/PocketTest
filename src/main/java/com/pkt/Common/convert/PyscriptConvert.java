@@ -22,6 +22,19 @@ public class PyscriptConvert {
         return functionList;
     }
 
+    public static List<Map<String, Object>> getGlobalKeyword(String scriptContent, String script_name, String section_name) {
+        List<String> keywordList = PyscriptConvert.separatePyscript(scriptContent);
+        List<Map<String, Object>> infoList = new ArrayList<>();
+        for(String keyword : keywordList){
+            Map<String, Object> infoMap = new HashMap<>();
+            infoMap.put("keyword", keyword);
+            infoMap.put("section_name", section_name);
+            infoMap.put("script_name", script_name);
+            infoList.add(infoMap);
+        }
+        return infoList;
+    }
+
     public static void main(String[] args) {
         try {
             String pyscriptContent = FileHandler.readFile("/Users/wuwenwen/Documents/TrendMicro/TestiCore/StartTest.py");
