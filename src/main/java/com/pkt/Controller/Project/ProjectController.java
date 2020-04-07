@@ -1,8 +1,10 @@
 package com.pkt.Controller.Project;
 
 import com.alibaba.druid.support.json.JSONUtils;
+import com.pkt.Entity.Section.Section;
 import com.pkt.Handler.CommonHandler;
 import com.pkt.Service.Project.ProjectService;
+import com.pkt.Service.Section.SectionInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +22,8 @@ public class ProjectController {
 
     @Autowired
     private ProjectService projectService;
+    @Autowired
+    private SectionInfoService sectionInfoService;
     @Resource
     private CommonHandler handler;
 
@@ -44,14 +48,12 @@ public class ProjectController {
 
     @RequestMapping("/add")
     @ResponseBody
-    public ModelAndView addProject(HttpServletRequest request) throws Exception{
+    public Map addProject(HttpServletRequest request) throws Exception{
         Map<String,Object> params = handler.getParams(request);
-        ModelAndView res = new ModelAndView();
-        res.addObject("params", params);
-        res.setViewName("/add");
-        System.out.println("增加项目信息" + params);
         try {
-            int code = projectService.addProject(params);
+            Map<String, Object> data = (Map<String, Object>)JSONUtils.parse(params.get("data").toString());
+            System.out.println("增加项目信息" + data);
+            int code = projectService.addProject(data);
             params.put("code", code);
             params.put("success", true);
             params.put("msg", "添加成功");
@@ -61,7 +63,7 @@ public class ProjectController {
             params.put("success", false);
             params.put("msg", "服务器异常");
         }
-        return res;
+        return params;
     }
 
     @RequestMapping("/delete")

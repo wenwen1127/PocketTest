@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pkt.Dao.TestProject.SuiteTestpointDao">
+    <select id="getBySuiteId" resultType="long" parameterType="long" >
+        select testpoint_id
+        from Suite_TestPoint
+        where suite_id = #{suite_id}
+    </select>
+
+    <insert id="add" parameterType="map" keyProperty="id" useGeneratedKeys="true">
+        insert into
+            Suite_TestPoint(id, testpoint_id, suite_id)
+        VALUES(#{id}, #{testpoint_id}, #{suite_id})
+    </insert>
+
+    <select id="count" resultType="int" parameterType="long" >
+        select count(*)
+        from Suite_TestPoint
+        where suite_id = #{suite_id}
+    </select>
+</mapper>

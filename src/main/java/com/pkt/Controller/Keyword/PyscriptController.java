@@ -97,7 +97,7 @@ public class PyscriptController{
 
     @RequestMapping("/edit")
     @ResponseBody
-    public Map editTestSuite(HttpServletRequest request) {
+    public Map editPyscript(HttpServletRequest request) {
         Map<String, Object> params = handler.getParams(request);
 
         try {

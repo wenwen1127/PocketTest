@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pkt.Dao.TestProject.TestPointDao">
+    <select id="getByTestPointId" resultType="map" parameterType="long" >
+        select *
+        from Test_point
+        where testpoint_id = #{testpoint_id}
+    </select>
+
+    <insert id="addTestPoint" parameterType="map" keyProperty="testpoint_id" useGeneratedKeys="true">
+        insert into
+            Test_point(testpoint_id, testpoint_name, testpoint_content, level, testplan_id)
+        VALUES(#{testpoint_id}, #{testpoint_name}, #{testpoint_content}, #{level}, #{testplan_id})
+    </insert>
+
+    <update id="editTestPoint" parameterType="map" useGeneratedKeys="true" keyProperty="testpoint_id">
+        update Test_point set
+        <if test="testpoint_name!='' and testpoint_name!=null" >
+            testpoint_name = #{testpoint_name},
+        </if>
+        <if test="testpoint_content!='' and testpoint_content!=null" >
+            testpoint_content = #{testpoint_content},
+        </if>
+        <if test="level!='' and level!=null" >
+            level = #{level},
+        </if>
+        testpoint_id = #{testpoint_id}
+        where testpoint_id = #{testpoint_id}
+    </update>
+</mapper>

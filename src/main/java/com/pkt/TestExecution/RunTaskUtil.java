@@ -8,23 +8,21 @@ import com.pkt.Common.constant.CommonConstant;
 import com.pkt.Common.convert.CaseConvert;
 import com.pkt.Common.convert.Format;
 import com.pkt.Common.convert.SuiteConvert;
-import com.pkt.Common.utils.RunCmdUtils;
-import com.pkt.Entity.TestProject.TestCase;
+import com.pkt.Common.utils.DateUtil;
 import com.pkt.Handler.FileHandler;
 import com.pkt.Service.RunTask.RunCaseService;
 import com.pkt.Service.TestProject.TestCaseService;
 import com.pkt.Service.TestProject.TestSuiteService;
-import org.assertj.core.util.DateUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
-import java.text.Normalizer;
 import java.util.*;
 
 @Component
-public class RunCaseUtil {
+public class RunTaskUtil {
 
     @Autowired
     ScriptDispatch scriptDispatch;
@@ -35,7 +33,7 @@ public class RunCaseUtil {
     @Autowired
     RunCaseService runCaseService;
 
-    public RunCaseUtil runCaseUtil;
+    public RunTaskUtil runCaseUtil;
 
     @PostConstruct
     public void init() {
@@ -52,17 +50,22 @@ public class RunCaseUtil {
         List<String> returnList = (List<String>) sentenceMap.get("returnList");
         List<String> inputList = (List<String>) sentenceMap.get("inputList");
         Map<String, Object> returnMap = new HashMap<String, Object>();
-
-        List inputValue = new ArrayList();
+        Map<String, Object> sentenceValueMap = new HashMap<>();
+        Map<String, Object> inputValue = new HashMap<>();
         List<String> outputName = new ArrayList<String>();
+        System.out.println("#####" + sentenceMap);
+        System.out.println("%%%%%" + returnList);
+        System.out.println("&&&&&" + inputList);
+        sentenceValueMap.put("sentence" ,sentenceMap);
         if(inputList != null){
             for(String inputName : inputList){
                 try {
-                    inputValue.add(Format.getValue(inputName, globalVar));
+                    inputValue.put(inputName, Format.getValue(inputName, globalVar));
                 }catch (TypeConvertException e){
                     e.printStackTrace();
                 }
             }
+            sentenceValueMap.put("inputParams", inputValue);
         }
         if(returnList != null){
 //            System.out.println(returnList);
@@ -76,7 +79,6 @@ public class RunCaseUtil {
                 }
             }
         }
-
         Map<String, Object> parseKeyword = scriptDispatch.dispatchPyscript(suite_id, keyword);
         System.out.println("parseKeyword"+parseKeyword);
         if(keyword.equals("")){
@@ -84,6 +86,7 @@ public class RunCaseUtil {
         }else if(parseKeyword==null || parseKeyword.size()==0){
             throw new KeywordNotFoundException("keyword " + keyword + " Not Found!!");
         }else {
+            sentenceValueMap.put("keyword",keyword);
             if(parseKeyword.containsKey("script_path")){
                 String script_path = parseKeyword.get("script_path").toString();
 
@@ -102,7 +105,7 @@ public class RunCaseUtil {
                 }
 
                 StringBuilder sb_param = new StringBuilder();
-                for(Object input: inputValue){
+                for(Object input: inputValue.values()){
                     ObjectMapper objectMapper = new ObjectMapper();
                     objectMapper.convertValue(input, input.getClass());
                     if(input != inputValue.get(inputValue.size()-1)){
@@ -114,17 +117,24 @@ public class RunCaseUtil {
                 List<String> return_value = GetSentenceReturn.getSentReturn(script_name,script_dir,keyword,sb_param.toString());
 
 //                System.out.println(outputName);
-                if(return_value.size() == outputName.size()){
-                    for(int i = 0;i<return_value.size();i++){
-                        returnMap.put(outputName.get(i), return_value.get(i));
-                    }
+                if(return_value.get(0).contains("Traceback")){
+                    sentenceValueMap.put("Error",return_value.get(0));
                 }else {
-                    throw new NumberOfProvidedValuesException("the number of provided valueNames  not match the values return");
+                    if (return_value.size() == outputName.size()) {
+                        for (int i = 0; i < return_value.size(); i++) {
+                            returnMap.put(outputName.get(i), return_value.get(i));
+                        }
+                        sentenceValueMap.put("outputParams", returnMap);
+                    } else {
+                    System.out.println("return_value: " + return_value.getClass());
+                        throw new NumberOfProvidedValuesException("the number of provided valueNames  not match the values return");
+                    }
                 }
             }
         }
-        System.out.println("sentenceReturnMap" + returnMap);
-        return returnMap;
+
+        System.out.println("sentenceReturnMap" + sentenceValueMap);
+        return sentenceValueMap;
     }
 
 
@@ -137,28 +147,47 @@ public class RunCaseUtil {
      * @return
      */
     public Map<String, Object> runCase(String caseContent, Map<String, Object> globalVar,long suite_id){
+        System.out.println("!!!!!!!!!!!!!!!!" + caseContent);
         List<Map<String, Object>> sentenList = CaseConvert.separeteCaseSentence(caseContent);
         Map<String, Object> runCaseMap = new HashMap<String, Object>();
+        List<Map<String, Object>> tempValueList = new ArrayList<>();
+        System.out.println("$$$$$$$$$" + sentenList +"\n" + "@@@@@@@" + caseContent);
         for(Map<String, Object> sentenMap : sentenList){
             try {
+                Map<String, Object> tempMap = new HashMap<>();
                 Map<String, Object> parseKeyword = scriptDispatch.dispatchPyscript(suite_id, sentenMap.get("keyword").toString());
                 if(parseKeyword.containsKey("content")){
                     String keywordsContent = parseKeyword.get("content").toString();
                     runCase(keywordsContent,globalVar,suite_id);
                 }
-                Map<String, Object> caseReturn = runSentence(globalVar, sentenMap, suite_id);
-                globalVar.putAll(caseReturn);
-                System.out.println("caserunning:" + globalVar);
+                Map<String, Object> sentenceReturn = runSentence(globalVar, sentenMap, suite_id);
+                System.out.println("************" + sentenceReturn + "##########");
+                if(sentenceReturn.containsKey("Error")){
+                    tempValueList.add(sentenceReturn);
+                    runCaseMap.put("paramList",tempValueList);
+                    runCaseMap.put("result", "FAIL");
+                    return runCaseMap;
+                }else {
+                    Map<String, Object> outputParams = (Map<String, Object>) sentenceReturn.get("outputParams");
+                    if (outputParams != null && outputParams.size() > 0) {
+                        globalVar.putAll(outputParams);
+                    }
+                    System.out.println("caserunning:" + globalVar);
+                    tempValueList.add(sentenceReturn);
+                }
             }catch (KeywordNotFoundException e1){
                 e1.printStackTrace();
+                runCaseMap.put("paramList",tempValueList);
                 runCaseMap.put("result", "FAIL");
                 return runCaseMap;
             }catch (NumberOfProvidedValuesException e2){
                 e2.printStackTrace();
+                runCaseMap.put("paramList",tempValueList);
                 runCaseMap.put("result", "FAIL");
                 return runCaseMap;
             }
         }
+        runCaseMap.put("paramList",tempValueList);
         runCaseMap.put("result", "PASS");
         return runCaseMap;
     }
@@ -168,7 +197,7 @@ public class RunCaseUtil {
         Map<String, Object> runSuiteMap = new HashMap<String, Object>();
         try {
             String suiteContent = FileHandler.readFile(file_path);
-            Date suiteStartDate = DateUtil.now();
+            String suiteStartDate = DateUtil.now();
             runSuiteMap.put("suiteStartDate",suiteStartDate);
             List<Map> caseResultList = new ArrayList<Map>();
             Map<String, Object> globalVar = SetEnvironment.getGlobalVariable(suiteContent);
@@ -186,12 +215,13 @@ public class RunCaseUtil {
             Map<String, Object> runCaseInfo = new HashMap<>();
             for (List<String> caselst: caseList){
                 Map<String, Object> caseResultMap = new HashMap<String, Object>();
-                Date caseStartDate = DateUtil.now();
+                String caseStartDate = DateUtil.now();
                 caseResultMap.put("caseStartDate",caseStartDate);
                 String caseName = caselst.get(0);
                 String caseContent = caselst.get(1);
                 long case_id = testCaseService.getCaseIdByParams(caseName, suite_id);
                 caseResultMap.put("case_id", case_id);
+                caseResultMap.put("case_name", caseName);
                 if (SetEnvironment.runSuiteEnviroment(suiteContent).containsKey(2)){
                     Map<String, Object> caseSetupReturn = runCaseSetup(suiteContent,globalVar,suite_id);
                     caseResultMap.put("caseSetupReturn", caseSetupReturn);
@@ -202,6 +232,7 @@ public class RunCaseUtil {
                         fail_count+=1;
                         runCaseInfo.putAll(params);
                         runCaseInfo.putAll(caseResultMap);
+                        caseResultList.add(caseResultMap);
                         runCaseService.addRunCaseInfo(runCaseInfo);
                         testCaseService.updateCaseResult(runCaseInfo);
                         runCaseInfo.clear();
@@ -215,6 +246,7 @@ public class RunCaseUtil {
                     runSuiteMap.put("caseTeardown", runCaseTeardown(suiteContent, globalVar,suite_id));
                     caseResultMap.put("caseEndDate",DateUtil.now());
                     caseResultMap.put("result","FAIL");
+                    caseResultList.add(caseResultMap);
                     runCaseInfo.putAll(params);
                     runCaseInfo.putAll(caseResultMap);
                     runCaseService.addRunCaseInfo(runCaseInfo);
@@ -231,6 +263,7 @@ public class RunCaseUtil {
                         caseResultMap.put("caseEndDate",DateUtil.now());
                         caseResultMap.put("result","FAIL");
                         fail_count+=1;
+                        caseResultList.add(caseResultMap);
                         runCaseInfo.putAll(caseResultMap);
                         runCaseInfo.putAll(params);
                         testCaseService.updateCaseResult(runCaseInfo);
@@ -254,6 +287,7 @@ public class RunCaseUtil {
             runSuiteMap.put("fail_count",fail_count);
             if(SetEnvironment.runSuiteEnviroment(suiteContent).containsKey(-1)){
                 Map<String, Object> suiteTeardownReturn = runSuiteTeardown(suiteContent,globalVar,suite_id);
+                System.out.println("suiteTeardownReturn "+suiteTeardownReturn);
                 runSuiteMap.put("suiteTeardownReturn",suiteTeardownReturn);
                 if(suiteTeardownReturn.get("result").equals("FAIL")){
                     runSuiteMap.put("suiteEndDate",DateUtil.now());
@@ -261,7 +295,7 @@ public class RunCaseUtil {
                     return runSuiteMap;
                 }
             }
-            Date suiteEndDate = DateUtil.now();
+            String suiteEndDate = DateUtil.now();
             runSuiteMap.put("suiteEndDate",suiteEndDate);
             if(fail_count==0 && pass_count==caseList.size()){
                 runSuiteMap.put("result","PASS");
@@ -284,25 +318,39 @@ public class RunCaseUtil {
 
     public  Map<String, Object> runSuiteSetup(String suiteContent, Map<String, Object> globalVar, long suite_id) {
         String suiteSetupContent = SetEnvironment.runSuiteEnviroment(suiteContent).get(1);
-        Map<String, Object> suiteSetupReturn = runCase(suiteSetupContent,globalVar,suite_id);
+        Map<String, Object> suiteSetupReturn = null;
+        if (suiteSetupContent!=null){
+            suiteSetupReturn = runCase(suiteSetupContent,globalVar,suite_id);
+        }
         return suiteSetupReturn;
     }
 
     public  Map<String, Object> runSuiteTeardown(String suiteContent, Map<String, Object> globalVar,long suite_id) {
         String suiteTeardownContent = SetEnvironment.runSuiteEnviroment(suiteContent).get(-1);
-        Map<String, Object> suiteTeardownReturn = runCase(suiteTeardownContent,globalVar,suite_id);
+        Map<String, Object> suiteTeardownReturn = null;
+        System.out.println("suiteTeardownContent "+ suiteTeardownContent);
+        if (suiteTeardownContent!=null){
+            suiteTeardownReturn = runCase(suiteTeardownContent,globalVar,suite_id);
+        }
         return suiteTeardownReturn;
     }
 
     public  Map<String, Object> runCaseSetup(String suiteContent, Map<String, Object> globalVar,long suite_id) {
         String caseSetupContent = SetEnvironment.runSuiteEnviroment(suiteContent).get(2);
-        Map<String, Object> caseSetupReturn = runCase(caseSetupContent,globalVar,suite_id);
+        Map<String, Object> caseSetupReturn = null;
+        if (caseSetupContent!=null){
+            caseSetupReturn = runCase(caseSetupContent,globalVar,suite_id);
+        }
+
         return caseSetupReturn;
     }
 
     public  Map<String, Object> runCaseTeardown(String suiteContent, Map<String, Object> globalVar,long suite_id) {
         String caseTeardownContent = SetEnvironment.runSuiteEnviroment(suiteContent).get(-2);
-        Map<String, Object> caseTeardownReturn =  runCase(caseTeardownContent,globalVar,suite_id);
+        Map<String, Object> caseTeardownReturn = null;
+        if(caseTeardownContent!=null){
+            caseTeardownReturn=  runCase(caseTeardownContent,globalVar,suite_id);
+        }
         return caseTeardownReturn;
     }
 

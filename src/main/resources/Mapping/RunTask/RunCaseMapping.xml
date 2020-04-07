@@ -32,4 +32,16 @@
         left join Test_case on run_case_info.case_id=Test_case.case_id
         where unix_timestamp(case_start_date) >= unix_timestamp(#{startDate});
     </select>
+
+    <select id="queryPageList" parameterType="map" resultType="java.util.HashMap">
+        select run_case_info.*, Test_case.case_name, pass_count, fail_count,user_name from run_case_info
+        left join Test_case on run_case_info.case_id=Test_case.case_id
+        left join user_info on run_case_info.user_id=user_info.user_id
+        where 1=1
+        <if test="section_id!='' and case_id!=null">
+            and section_id = #{section_id}
+        </if>
+        order by case_start_date desc
+        limit 50
+    </select>
 </mapper>

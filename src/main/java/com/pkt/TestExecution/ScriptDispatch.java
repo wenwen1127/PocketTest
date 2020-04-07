@@ -73,14 +73,12 @@ public class ScriptDispatch {
             params.put("suite_id", suite_id);
             List<Map<String, Object>> script_in_suite = scriptDispatch.pyscriptService.getPyscriptByParams(params);
 
-//            System.out.println(returnMap); //打印结果为空
-
 
             for(Map<String, Object> scriptInfo : script_in_suite){
                 String file_path = scriptInfo.get("file_path").toString();
                 String pyscriptContent = FileHandler.readFile(file_path);
                 List<String> keyword_name = PyscriptConvert.separatePyscript(pyscriptContent);
-
+                System.out.println("keyword_name: " + keyword_name+ "----"+ keyword); //打印结果为空
                 if(keyword_name.contains(keyword)){
                     returnMap.put("script_path", file_path);
                     System.out.println(returnMap);
@@ -103,9 +101,9 @@ public class ScriptDispatch {
                     }
                 }
             }
-            long testmodule_id = Long.valueOf(suite_info.get("testproject_id").toString());
+            long testproject_id = Long.valueOf(suite_info.get("testproject_id").toString());
             params.clear();
-            params.put("testproject_id", testmodule_id);
+            params.put("testproject_id", testproject_id);
             List<Map<String, Object>> script_in_project = scriptDispatch.pyscriptService.getPyscriptByParams(params);
             for(Map<String, Object> scriptInfo : script_in_project){
                 String file_path = scriptInfo.get("file_path").toString();

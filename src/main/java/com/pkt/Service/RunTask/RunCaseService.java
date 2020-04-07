@@ -24,4 +24,7 @@ public class RunCaseService {
         return runCaseDao.completedTask(startDate);
     }
 
+    public List<Map<String, Object>> queryPageList(Map<String, Object> params){
+        return runCaseDao.queryPageList(params);
+    }
 }

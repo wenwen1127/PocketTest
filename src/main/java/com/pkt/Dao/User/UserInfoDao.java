@@ -1,11 +1,8 @@
 package com.pkt.Dao.User;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-
-import java.rmi.MarshalledObject;
 import java.util.List;
 import java.util.Map;
 
@@ -24,14 +21,14 @@ public interface UserInfoDao {
      * @param params
      * @return
      */
-    public int addUser(Map<String,Object> params);
+    public int addUser(Map<String, Object> params);
 
     /**
      * 统计
      * @param params
      * @return
      */
-    public int count(Map<String,Object> params);
+    public int count(Map<String, Object> params);
 
     /**
      * 返回一个user的所有info
@@ -52,6 +49,6 @@ public interface UserInfoDao {
      * @param params
      * @return
      */
-    public List<Map<String, Object>> queryPageList(Map<String,Object> params);
+    public List<Map<String, Object>> queryPageList(Map<String, Object> params);
 
 }

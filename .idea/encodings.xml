@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Encoding" addBOMForNewFiles="with NO BOM">
+  <component name="Encoding" native2AsciiForPropertiesFiles="true" addBOMForNewFiles="with NO BOM">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/pkt/Controller/RunTask/RunTaskController.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/pkt/Controller/User/UserController.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/pkt/GeneticAlgorithm/GeneticAlgorithm.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/pkt/GeneticAlgorithm/MainRun.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/pkt/GeneticAlgorithm/SpeciesIndividual.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/pkt/GeneticAlgorithm/SpeciesPopulation.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/pkt/GeneticAlgorithm/TSPData.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/application.yml" charset="UTF-8" />
   </component>
 </project>

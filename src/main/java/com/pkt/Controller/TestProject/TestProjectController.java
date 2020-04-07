@@ -3,6 +3,7 @@ package com.pkt.Controller.TestProject;
 import com.alibaba.druid.support.json.JSONUtils;
 import com.pkt.Handler.CommonHandler;
 import com.pkt.Handler.FileHandler;
+import com.pkt.Handler.TestProjectHandler;
 import com.pkt.Service.Keyword.PyscriptService;
 import com.pkt.Service.TestProject.TestModuleService;
 import com.pkt.Service.TestProject.TestProjectService;
@@ -36,6 +37,8 @@ public class TestProjectController {
     private PyscriptService pyscriptService;
     @Resource
     private CommonHandler handler;
+    @Resource
+    private TestProjectHandler testProjecthandler;
 
     @RequestMapping("/get")
     @ResponseBody
@@ -248,31 +251,31 @@ public class TestProjectController {
             System.out.println("querylist" + JSONUtils.toJSONString(params));
 //            long testproject_id = Long.valueOf(params.get("testproject_id").toString());
             List<Object> dirList = new ArrayList<Object>();
-            Map<String,Object> moduleMap = handler.handlerTestProjectList(testModuleService.queryPageList(params),"Module");
+            Map<String,Object> moduleMap = testProjecthandler.handlerTestProjectList(testModuleService.queryPageList(params),"Module");
             dirList.add(moduleMap);
-            List<Map<String, Object>> scriptList = handler.handlerTestProjectObject(pyscriptService.queryPageList(params),"pyscript_name");
-            List<Map<String, Object>> suiteList = handler.handlerTestProjectObject(testSuiteService.queryPageList(params),"suite_name");
+            List<Map<String, Object>> scriptList = testProjecthandler.handlerTestProjectObject(pyscriptService.queryPageList(params),"pyscript_name");
+            List<Map<String, Object>> suiteList = testProjecthandler.handlerTestProjectObject(testSuiteService.queryPageList(params),"suite_name");
             Map<String, Object> tempMap = new HashMap<>();
             for (Map<String, Object> projectSubSuite : suiteList) {
                 long suite_id = Long.valueOf(projectSubSuite.get("suite_id").toString());
                 tempMap.put("suite_id", suite_id);
-                List<Map<String, Object>> subScriptList = handler.handlerTestProjectObject(pyscriptService.queryPageList(tempMap),"pyscript_name");
+                List<Map<String, Object>> subScriptList = testProjecthandler.handlerTestProjectObject(pyscriptService.queryPageList(tempMap),"pyscript_name");
                 projectSubSuite.put("dirname", projectSubSuite.get("suite_name").toString());
                 projectSubSuite.put("subList",subScriptList);
                 tempMap.clear();
             }
-            dirList.add(handler.handlerTestProjectList(suiteList, "Suite"));
-            dirList.add(handler.handlerTestProjectList(scriptList,"Script"));
+            dirList.add(testProjecthandler.handlerTestProjectList(suiteList, "Suite"));
+            dirList.add(testProjecthandler.handlerTestProjectList(scriptList,"Script"));
 //            List<Map<String,Object>> moduleInfoList = testModuleService.queryList(params);
             Map<String, Object> paramMap = new HashMap<String, Object>();
             for(Map<String,Object> moduleInfo : (List<Map<String,Object>>)moduleMap.get("subList")) {
                 long testmodle_id = Long.valueOf(moduleInfo.get("testmodule_id").toString());
                 paramMap.put("testmodule_id", testmodle_id);
                 List<Map<String, Object>> moduleSubSuiteList = testSuiteService.queryPageList(paramMap);
-                List<Map<String, Object>> moduleSubScriptList = handler.handlerTestProjectObject(pyscriptService.queryPageList(paramMap),"pyscript_name");
+                List<Map<String, Object>> moduleSubScriptList = testProjecthandler.handlerTestProjectObject(pyscriptService.queryPageList(paramMap),"pyscript_name");
                 List moduleSubList = new ArrayList();
-                moduleSubList.add(handler.handlerTestProjectList(moduleSubSuiteList, "Suite"));
-                moduleSubList.add(handler.handlerTestProjectList(moduleSubScriptList, "Script"));
+                moduleSubList.add(testProjecthandler.handlerTestProjectList(moduleSubSuiteList, "Suite"));
+                moduleSubList.add(testProjecthandler.handlerTestProjectList(moduleSubScriptList, "Script"));
 
                 moduleInfo.put("dirname",moduleInfo.get("testmodule_name").toString());
                 moduleInfo.put("subList", moduleSubList);
@@ -282,7 +285,7 @@ public class TestProjectController {
                     for (Map<String, Object> moduleSubSuite : moduleSubSuiteList) {
                         long suite_id = Long.valueOf(moduleSubSuite.get("suite_id").toString());
                         subparamMap.put("suite_id", suite_id);
-                        List<Map<String, Object>> subScriptList = handler.handlerTestProjectObject(pyscriptService.queryPageList(subparamMap),"pyscript_name");
+                        List<Map<String, Object>> subScriptList = testProjecthandler.handlerTestProjectObject(pyscriptService.queryPageList(subparamMap),"pyscript_name");
                         moduleSubSuite.put("dirname", moduleSubSuite.get("suite_name").toString());
                         moduleSubSuite.put("subList",subScriptList);
                         subparamMap.clear();
