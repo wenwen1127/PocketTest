@@ -15,7 +15,7 @@
         project_info(
                      project_id, project_name, project_manager, section_id, `describe`
         ) values (
-                  #{project_id}, #{project_name}, #{project_manager}, #{section_id}, #{describe}
+                  #{project_id}, #{project_name}, (select user_id from user_info where user_name=#{manager}), (select section_id from section_info where section_name=#{section_name}), #{describe}
                          )
     </insert>
 
@@ -29,11 +29,11 @@
         <if test="project_name != '' and project_name != null">
             project_name = #{project_name},
         </if>
-        <if test="project_manager != '' and project_manager != null">
-            project_manager = #{project_manager},
+        <if test="manager != '' and manager != null">
+            project_manager = (select user_id from user_info where user_name=#{manager})
         </if>
-        <if test="section_id != null and section_id != ''">
-            section_id = #{section_id},
+        <if test="section_name != null and section_name != ''">
+            section_id = (select section_id from section_info where section_name = #{section_name})
         </if>
         <if test="describe != null and describe != ''">
             `describe` = #{describe},

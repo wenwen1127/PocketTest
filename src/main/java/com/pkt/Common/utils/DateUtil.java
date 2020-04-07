@@ -1,5 +1,6 @@
 package com.pkt.Common.utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -49,5 +50,18 @@ public class DateUtil {
      */
     public static String now() {
         return sdfTime.format(new Date());
+    }
+
+    public static long getTimestamp(String time){
+        SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        long timestamp= 0;
+        try {
+            Date date = format.parse(time);
+            timestamp = date.getTime();
+            return timestamp/1000;
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
+        return timestamp;
     }
 }

@@ -29,8 +29,9 @@ public class GetSentenceReturn {
             String resprint = RunCmdUtils.run(cmd_args, script_dir);
 
             String res_str = resprint.split("%")[resprint.split("%").length-1];
+            System.out.println("res_str$$$$$$$$" + res_str);
             res_list = Arrays.asList(res_str.split("-"));
-            System.out.println(res_list);
+            System.out.println("res$$$$$$$$" + res_list);
         }catch (IOException e2){
             e2.printStackTrace();
         }

@@ -25,4 +25,11 @@ public interface RunCaseDao {
 
     public List<Map<String, Object>> completedTask(String startDate);
 
+    /**
+     * 获得分页列表
+     * @param params
+     * @return
+     */
+    public List<Map<String, Object>> queryPageList(Map<String, Object> params);
+
 }

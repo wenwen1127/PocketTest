@@ -1110,58 +1110,95 @@
       <Charset>utf8mb4</Charset>
       <DefaultForCharset>0</DefaultForCharset>
     </collation>
-    <table id="279" parent="6" name="Test_Module">
+    <table id="279" parent="6" name="Suite_TestPoint">
       <Collation>utf8_general_ci</Collation>
     </table>
-    <table id="280" parent="6" name="Test_case">
+    <table id="280" parent="6" name="Test_Module">
       <Collation>utf8_general_ci</Collation>
     </table>
-    <table id="281" parent="6" name="Test_project">
+    <table id="281" parent="6" name="Test_case">
       <Collation>utf8_general_ci</Collation>
     </table>
-    <table id="282" parent="6" name="Test_suite">
+    <table id="282" parent="6" name="Test_plan">
       <Collation>utf8_general_ci</Collation>
     </table>
-    <table id="283" parent="6" name="buildin_keyword">
+    <table id="283" parent="6" name="Test_point">
       <Collation>utf8_general_ci</Collation>
     </table>
-    <table id="284" parent="6" name="external_keyword">
+    <table id="284" parent="6" name="Test_project">
       <Collation>utf8_general_ci</Collation>
     </table>
-    <table id="285" parent="6" name="function_info">
+    <table id="285" parent="6" name="Test_suite">
       <Collation>utf8_general_ci</Collation>
     </table>
-    <table id="286" parent="6" name="global_script">
+    <table id="286" parent="6" name="buildin_keyword">
       <Collation>utf8_general_ci</Collation>
     </table>
-    <table id="287" parent="6" name="project_info">
+    <table id="287" parent="6" name="external_keyword">
       <Collation>utf8_general_ci</Collation>
     </table>
-    <table id="288" parent="6" name="project_version">
+    <table id="288" parent="6" name="function_info">
       <Collation>utf8_general_ci</Collation>
     </table>
-    <table id="289" parent="6" name="pyscript_info">
+    <table id="289" parent="6" name="global_script">
       <Collation>utf8_general_ci</Collation>
     </table>
-    <table id="290" parent="6" name="run_case_info">
+    <table id="290" parent="6" name="permission"/>
+    <table id="291" parent="6" name="project_info">
       <Collation>utf8_general_ci</Collation>
     </table>
-    <table id="291" parent="6" name="section_info">
+    <table id="292" parent="6" name="project_version">
       <Collation>utf8_general_ci</Collation>
     </table>
-    <table id="292" parent="6" name="tag_info">
+    <table id="293" parent="6" name="pyscript_info">
       <Collation>utf8_general_ci</Collation>
     </table>
-    <table id="293" parent="6" name="user_info">
+    <table id="294" parent="6" name="run_case_info">
       <Collation>utf8_general_ci</Collation>
     </table>
-    <table id="294" parent="6" name="user_password">
+    <table id="295" parent="6" name="run_suite_info">
       <Collation>utf8_general_ci</Collation>
     </table>
-    <table id="295" parent="6" name="user_role">
+    <table id="296" parent="6" name="section_info">
       <Collation>utf8_general_ci</Collation>
     </table>
-    <column id="296" parent="279" name="testmodule_id">
+    <table id="297" parent="6" name="tag_info">
+      <Collation>utf8_general_ci</Collation>
+    </table>
+    <table id="298" parent="6" name="user_info">
+      <Collation>utf8_general_ci</Collation>
+    </table>
+    <table id="299" parent="6" name="user_password">
+      <Collation>utf8_general_ci</Collation>
+    </table>
+    <column id="300" parent="279" name="id">
+      <Position>1</Position>
+      <Comment>id</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="301" parent="279" name="testpoint_id">
+      <Position>2</Position>
+      <Comment>测试点的id</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="302" parent="279" name="suite_id">
+      <Position>3</Position>
+      <Comment>测试套件的id</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="303" parent="279" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="304" parent="280" name="testmodule_id">
       <Position>1</Position>
       <Comment>测试模块的id</Comment>
       <DataType>int(11)|0s</DataType>
@@ -1169,47 +1206,47 @@
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="297" parent="279" name="testmodule_name">
+    <column id="305" parent="280" name="testmodule_name">
       <Position>2</Position>
       <Comment>测试模块名称</Comment>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="298" parent="279" name="testmodule_path">
+    <column id="306" parent="280" name="testmodule_path">
       <Position>3</Position>
       <Comment>测试模块路径</Comment>
       <DataType>varchar(200)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="299" parent="279" name="testproject_id">
+    <column id="307" parent="280" name="testproject_id">
       <Position>4</Position>
       <Comment>测试项目ID</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="300" parent="279" name="create_time">
+    <column id="308" parent="280" name="create_time">
       <Position>5</Position>
       <Comment>创建时间</Comment>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="301" parent="279" name="modify_time">
+    <column id="309" parent="280" name="modify_time">
       <Position>6</Position>
       <Comment>修改时间</Comment>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="302" parent="279" name="PRIMARY">
+    <key id="310" parent="280" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>testmodule_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="303" parent="280" name="case_id">
+    <column id="311" parent="281" name="case_id">
       <Position>1</Position>
       <Comment>测试用例的id</Comment>
       <DataType>int(11)|0s</DataType>
@@ -1217,53 +1254,121 @@
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="304" parent="280" name="case_name">
+    <column id="312" parent="281" name="case_name">
       <Position>2</Position>
       <Comment>测试用例名称</Comment>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="305" parent="280" name="suite_id">
+    <column id="313" parent="281" name="suite_id">
       <Position>3</Position>
       <Comment>测试套件ID</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="306" parent="280" name="pass_count">
+    <column id="314" parent="281" name="pass_count">
       <Position>4</Position>
       <Comment>成功个数</Comment>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="307" parent="280" name="fail_count">
+    <column id="315" parent="281" name="fail_count">
       <Position>5</Position>
       <Comment>失败个数</Comment>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="308" parent="280" name="status">
+    <column id="316" parent="281" name="status">
       <Position>6</Position>
       <Comment>状态</Comment>
       <DataType>varchar(20)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="309" parent="280" name="case_name">
+    <index id="317" parent="281" name="case_name">
       <ColNames>case_name</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="310" parent="280" name="PRIMARY">
+    <key id="318" parent="281" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>case_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="311" parent="280" name="case_name">
+    <key id="319" parent="281" name="case_name">
       <ColNames>case_name</ColNames>
       <UnderlyingIndexName>case_name</UnderlyingIndexName>
     </key>
-    <column id="312" parent="281" name="testproject_id">
+    <column id="320" parent="282" name="testplan_id">
+      <Position>1</Position>
+      <Comment>测试计划的id</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="321" parent="282" name="file_path">
+      <Position>2</Position>
+      <Comment>测试计划文件路径</Comment>
+      <DataType>varchar(200)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="322" parent="282" name="testproject_id">
+      <Position>3</Position>
+      <Comment>测试项目的id</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="323" parent="282" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>testplan_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="324" parent="283" name="testpoint_id">
+      <Position>1</Position>
+      <Comment>测试点的id</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="325" parent="283" name="testpoint_name">
+      <Position>2</Position>
+      <Comment>测试点名称</Comment>
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="326" parent="283" name="testpoint_content">
+      <Position>3</Position>
+      <Comment>测试点内容</Comment>
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="327" parent="283" name="level">
+      <Position>4</Position>
+      <Comment>测试点等级</Comment>
+      <DataType>int(4)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="328" parent="283" name="testplan_id">
+      <Position>5</Position>
+      <Comment>测试计划的id</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="329" parent="283" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>testpoint_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="330" parent="284" name="testproject_id">
       <Position>1</Position>
       <Comment>测试项目的id</Comment>
       <DataType>int(11)|0s</DataType>
@@ -1271,64 +1376,64 @@
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="313" parent="281" name="testproject_name">
+    <column id="331" parent="284" name="testproject_name">
       <Position>2</Position>
       <Comment>测试项目名称</Comment>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="314" parent="281" name="testproject_path">
+    <column id="332" parent="284" name="testproject_path">
       <Position>3</Position>
       <Comment>测试项目路径</Comment>
       <DataType>varchar(200)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="315" parent="281" name="section_id">
+    <column id="333" parent="284" name="section_id">
       <Position>4</Position>
       <Comment>所属部门ID</Comment>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="316" parent="281" name="project_id">
+    <column id="334" parent="284" name="project_id">
       <Position>5</Position>
       <Comment>所属项目的ID</Comment>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="317" parent="281" name="version_id">
+    <column id="335" parent="284" name="version_id">
       <Position>6</Position>
       <Comment>所属版本的ID</Comment>
       <DataType>int(8)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="318" parent="281" name="user_id">
+    <column id="336" parent="284" name="user_id">
       <Position>7</Position>
       <Comment>创建者ID</Comment>
       <DataType>int(8)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="319" parent="281" name="create_time">
+    <column id="337" parent="284" name="create_time">
       <Position>8</Position>
       <Comment>创建时间</Comment>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="320" parent="281" name="modify_time">
+    <column id="338" parent="284" name="modify_time">
       <Position>9</Position>
       <Comment>修改时间</Comment>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="321" parent="281" name="PRIMARY">
+    <key id="339" parent="284" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>testproject_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="322" parent="282" name="suite_id">
+    <column id="340" parent="285" name="suite_id">
       <Position>1</Position>
       <Comment>测试套件的id</Comment>
       <DataType>int(11)|0s</DataType>
@@ -1336,58 +1441,58 @@
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="323" parent="282" name="suite_name">
+    <column id="341" parent="285" name="suite_name">
       <Position>2</Position>
       <Comment>测试套件名称</Comment>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="324" parent="282" name="file_path">
+    <column id="342" parent="285" name="file_path">
       <Position>3</Position>
       <Comment>测试条件路径</Comment>
       <DataType>varchar(200)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="325" parent="282" name="testmodule_id">
+    <column id="343" parent="285" name="testmodule_id">
       <Position>4</Position>
       <Comment>测试模块ID</Comment>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="326" parent="282" name="testproject_id">
+    <column id="344" parent="285" name="testproject_id">
       <Position>5</Position>
       <Comment>测试项目ID</Comment>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="327" parent="282" name="description">
+    <column id="345" parent="285" name="description">
       <Position>6</Position>
       <Comment>描述</Comment>
       <DataType>varchar(500)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="328" parent="282" name="create_time">
+    <column id="346" parent="285" name="create_time">
       <Position>7</Position>
       <Comment>创建时间</Comment>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="329" parent="282" name="modify_time">
+    <column id="347" parent="285" name="modify_time">
       <Position>8</Position>
       <Comment>修改时间</Comment>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="330" parent="282" name="PRIMARY">
+    <key id="348" parent="285" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>suite_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="331" parent="283" name="bldinkeyword_id">
+    <column id="349" parent="286" name="bldinkeyword_id">
       <Position>1</Position>
       <Comment>内部关键字的id</Comment>
       <DataType>int(11)|0s</DataType>
@@ -1395,31 +1500,31 @@
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="332" parent="283" name="bldinkeyword_name">
+    <column id="350" parent="286" name="bldinkeyword_name">
       <Position>2</Position>
       <Comment>内部关键字名称</Comment>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="333" parent="283" name="bldinkeyword_input">
+    <column id="351" parent="286" name="bldinkeyword_input">
       <Position>3</Position>
       <Comment>内部关键字入参</Comment>
       <DataType>varchar(200)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="334" parent="283" name="bldinkeyword_output">
+    <column id="352" parent="286" name="bldinkeyword_output">
       <Position>4</Position>
       <Comment>内部关键字结果</Comment>
       <DataType>varchar(200)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="335" parent="283" name="PRIMARY">
+    <key id="353" parent="286" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>bldinkeyword_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="336" parent="284" name="exkeyword_id">
+    <column id="354" parent="287" name="exkeyword_id">
       <Position>1</Position>
       <Comment>外部关键字的id</Comment>
       <DataType>int(11)|0s</DataType>
@@ -1427,33 +1532,33 @@
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="337" parent="284" name="exkeyword_name">
+    <column id="355" parent="287" name="exkeyword_name">
       <Position>2</Position>
       <Comment>外部关键字名称</Comment>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="338" parent="284" name="section_id">
+    <column id="356" parent="287" name="section_id">
       <Position>3</Position>
       <Comment>所属部门ID</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="339" parent="284" name="globalscript_id">
+    <column id="357" parent="287" name="globalscript_id">
       <Position>4</Position>
       <Comment>对应脚本的ID</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="340" parent="284" name="PRIMARY">
+    <key id="358" parent="287" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>exkeyword_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="341" parent="285" name="function_id">
+    <column id="359" parent="288" name="function_id">
       <Position>1</Position>
       <Comment>函数的id</Comment>
       <DataType>int(11)|0s</DataType>
@@ -1461,33 +1566,33 @@
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="342" parent="285" name="function_name">
+    <column id="360" parent="288" name="function_name">
       <Position>2</Position>
       <Comment>函数名称</Comment>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="343" parent="285" name="type">
+    <column id="361" parent="288" name="type">
       <Position>3</Position>
       <Comment>类型，0为全局 1为局部</Comment>
       <DataType>int(4)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="344" parent="285" name="pyscript_id">
+    <column id="362" parent="288" name="pyscript_id">
       <Position>4</Position>
       <Comment>所属脚本的ID</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="345" parent="285" name="PRIMARY">
+    <key id="363" parent="288" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>function_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="346" parent="286" name="globalscript_id">
+    <column id="364" parent="289" name="globalscript_id">
       <Position>1</Position>
       <Comment>外部关键字的id</Comment>
       <DataType>int(11)|0s</DataType>
@@ -1495,47 +1600,68 @@
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="347" parent="286" name="globalscript_name">
+    <column id="365" parent="289" name="globalscript_name">
       <Position>2</Position>
       <Comment>外部关键字名称</Comment>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="348" parent="286" name="section_id">
+    <column id="366" parent="289" name="section_id">
       <Position>3</Position>
       <Comment>所属部门ID</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="349" parent="286" name="create_time">
+    <column id="367" parent="289" name="create_time">
       <Position>4</Position>
       <Comment>创建时间</Comment>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="350" parent="286" name="modify_time">
+    <column id="368" parent="289" name="modify_time">
       <Position>5</Position>
       <Comment>修改时间</Comment>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="351" parent="286" name="file_path">
+    <column id="369" parent="289" name="file_path">
       <Position>6</Position>
       <Comment>文件路径</Comment>
       <DataType>varchar(200)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="352" parent="286" name="PRIMARY">
+    <key id="370" parent="289" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>globalscript_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="353" parent="287" name="project_id">
+    <column id="371" parent="290" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="372" parent="290" name="permission">
+      <Position>2</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="373" parent="290" name="url">
+      <Position>3</Position>
+      <DataType>varchar(100)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="374" parent="290" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="375" parent="291" name="project_id">
       <Position>1</Position>
       <Comment>项目ID唯一标识</Comment>
       <DataType>int(11)|0s</DataType>
@@ -1543,43 +1669,43 @@
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="354" parent="287" name="project_name">
+    <column id="376" parent="291" name="project_name">
       <Position>2</Position>
       <Comment>项目名称</Comment>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="355" parent="287" name="project_manager">
+    <column id="377" parent="291" name="project_manager">
       <Position>3</Position>
       <Comment>项目经理ID</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="356" parent="287" name="section_id">
+    <column id="378" parent="291" name="section_id">
       <Position>4</Position>
       <Comment>所属部门ID</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="357" parent="287" name="describe">
+    <column id="379" parent="291" name="describe">
       <Position>5</Position>
       <Comment>描述</Comment>
       <DataType>varchar(500)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="358" parent="287" name="project_info_ibfk">
+    <index id="380" parent="291" name="project_info_ibfk">
       <ColNames>section_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="359" parent="287" name="PRIMARY">
+    <key id="381" parent="291" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>project_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="360" parent="287" name="project_info_ibfk">
+    <foreign-key id="382" parent="291" name="project_info_ibfk">
       <ColNames>section_id</ColNames>
       <RefSchemaName>pocket_test_db</RefSchemaName>
       <RefTableName>section_info</RefTableName>
@@ -1587,7 +1713,7 @@
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="361" parent="288" name="version_id">
+    <column id="383" parent="292" name="version_id">
       <Position>1</Position>
       <Comment>版本ID唯一标识</Comment>
       <DataType>int(8)|0s</DataType>
@@ -1595,107 +1721,107 @@
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="362" parent="288" name="version_number">
+    <column id="384" parent="292" name="version_number">
       <Position>2</Position>
       <Comment>版本号</Comment>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="363" parent="288" name="plan_launchdate">
+    <column id="385" parent="292" name="plan_launchdate">
       <Position>3</Position>
       <Comment>计划上线日期</Comment>
       <DataType>varchar(20)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="364" parent="288" name="actually_launchdate">
+    <column id="386" parent="292" name="actually_launchdate">
       <Position>4</Position>
       <Comment>实际上线日期</Comment>
       <DataType>varchar(20)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="365" parent="288" name="plan_devstart">
+    <column id="387" parent="292" name="plan_devstart">
       <Position>5</Position>
       <Comment>计划开发开始时间</Comment>
       <DataType>varchar(20)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="366" parent="288" name="plan_devend">
+    <column id="388" parent="292" name="plan_devend">
       <Position>6</Position>
       <Comment>计划开发结束时间</Comment>
       <DataType>varchar(20)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="367" parent="288" name="actually_devstart">
+    <column id="389" parent="292" name="actually_devstart">
       <Position>7</Position>
       <Comment>实际开发开始时间</Comment>
       <DataType>varchar(20)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="368" parent="288" name="actually_devend">
+    <column id="390" parent="292" name="actually_devend">
       <Position>8</Position>
       <Comment>实际开发结束时间</Comment>
       <DataType>varchar(20)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="369" parent="288" name="plan_teststart">
+    <column id="391" parent="292" name="plan_teststart">
       <Position>9</Position>
       <Comment>计划测试开始时间</Comment>
       <DataType>varchar(20)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="370" parent="288" name="plan_testend">
+    <column id="392" parent="292" name="plan_testend">
       <Position>10</Position>
       <Comment>计划测试结束时间</Comment>
       <DataType>varchar(20)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="371" parent="288" name="actually_teststart">
+    <column id="393" parent="292" name="actually_teststart">
       <Position>11</Position>
       <Comment>实际测试开始时间</Comment>
       <DataType>varchar(20)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="372" parent="288" name="actually_testend">
+    <column id="394" parent="292" name="actually_testend">
       <Position>12</Position>
       <Comment>实际测试结束时间</Comment>
       <DataType>varchar(20)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="373" parent="288" name="testcasenum">
+    <column id="395" parent="292" name="testcasenum">
       <Position>13</Position>
       <Comment>测试用例数</Comment>
       <DataType>int(10)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="374" parent="288" name="imprint">
+    <column id="396" parent="292" name="imprint">
       <Position>14</Position>
       <Comment>版本说明</Comment>
       <DataType>varchar(500)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="375" parent="288" name="remark">
+    <column id="397" parent="292" name="remark">
       <Position>15</Position>
       <Comment>备注</Comment>
       <DataType>varchar(500)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="376" parent="288" name="project_id">
+    <column id="398" parent="292" name="project_id">
       <Position>16</Position>
       <Comment>项目ID</Comment>
       <DataType>int(10)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="377" parent="288" name="project_version_ibfk">
+    <index id="399" parent="292" name="project_version_ibfk">
       <ColNames>project_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="378" parent="288" name="PRIMARY">
+    <key id="400" parent="292" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>version_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="379" parent="288" name="project_version_ibfk">
+    <foreign-key id="401" parent="292" name="project_version_ibfk">
       <ColNames>project_id</ColNames>
       <RefSchemaName>pocket_test_db</RefSchemaName>
       <RefTableName>project_info</RefTableName>
@@ -1703,7 +1829,7 @@
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="380" parent="289" name="pyscript_id">
+    <column id="402" parent="293" name="pyscript_id">
       <Position>1</Position>
       <Comment>python脚本的id</Comment>
       <DataType>int(11)|0s</DataType>
@@ -1711,65 +1837,65 @@
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="381" parent="289" name="pyscript_name">
+    <column id="403" parent="293" name="pyscript_name">
       <Position>2</Position>
       <Comment>python脚本名称</Comment>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="382" parent="289" name="file_path">
+    <column id="404" parent="293" name="file_path">
       <Position>3</Position>
       <Comment>文件路径</Comment>
       <DataType>varchar(200)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="383" parent="289" name="testproject_id">
+    <column id="405" parent="293" name="testproject_id">
       <Position>4</Position>
       <Comment>所属测试工程的id</Comment>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="384" parent="289" name="testmodule_id">
+    <column id="406" parent="293" name="testmodule_id">
       <Position>5</Position>
       <Comment>所属模块的ID</Comment>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="385" parent="289" name="suite_id">
+    <column id="407" parent="293" name="suite_id">
       <Position>6</Position>
       <Comment>所属套件的id</Comment>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="386" parent="289" name="type">
+    <column id="408" parent="293" name="type">
       <Position>7</Position>
       <Comment>类型，0为全局 1为局部</Comment>
       <DataType>int(4)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="387" parent="289" name="create_time">
+    <column id="409" parent="293" name="create_time">
       <Position>8</Position>
       <Comment>创建时间</Comment>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="388" parent="289" name="modify_time">
+    <column id="410" parent="293" name="modify_time">
       <Position>9</Position>
       <Comment>修改时间</Comment>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="389" parent="289" name="PRIMARY">
+    <key id="411" parent="293" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>pyscript_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="390" parent="290" name="id">
+    <column id="412" parent="294" name="id">
       <Position>1</Position>
       <Comment>唯一标识</Comment>
       <DataType>int(11)|0s</DataType>
@@ -1777,61 +1903,116 @@
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="391" parent="290" name="case_id">
+    <column id="413" parent="294" name="case_id">
       <Position>2</Position>
       <Comment>用例ID</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="392" parent="290" name="suite_id">
+    <column id="414" parent="294" name="suite_id">
       <Position>3</Position>
       <Comment>套件ID</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="393" parent="290" name="user_id">
+    <column id="415" parent="294" name="user_id">
       <Position>4</Position>
       <Comment>测试人员ID</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="394" parent="290" name="section_id">
+    <column id="416" parent="294" name="section_id">
       <Position>5</Position>
       <Comment>部门ID</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="395" parent="290" name="case_result">
+    <column id="417" parent="294" name="case_result">
       <Position>6</Position>
       <Comment>用例结果</Comment>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="396" parent="290" name="case_start_date">
+    <column id="418" parent="294" name="case_start_date">
       <Position>7</Position>
       <Comment>用例执行开始时间</Comment>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="397" parent="290" name="case_end_date">
+    <column id="419" parent="294" name="case_end_date">
       <Position>8</Position>
       <Comment>用例执行结束时间</Comment>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="398" parent="290" name="PRIMARY">
+    <key id="420" parent="294" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="399" parent="291" name="section_id">
+    <column id="421" parent="295" name="id">
+      <Position>1</Position>
+      <Comment>唯一标识</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="422" parent="295" name="suite_id">
+      <Position>2</Position>
+      <Comment>套件ID</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="423" parent="295" name="user_id">
+      <Position>3</Position>
+      <Comment>测试人员ID</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="424" parent="295" name="section_id">
+      <Position>4</Position>
+      <Comment>部门ID</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="425" parent="295" name="suite_result">
+      <Position>5</Position>
+      <Comment>用例结果</Comment>
+      <DataType>varchar(20)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="426" parent="295" name="suite_start_date">
+      <Position>6</Position>
+      <Comment>用例执行开始时间</Comment>
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="427" parent="295" name="suite_end_date">
+      <Position>7</Position>
+      <Comment>用例执行结束时间</Comment>
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="428" parent="295" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="429" parent="296" name="section_id">
       <Position>1</Position>
       <Comment>部门ID唯一标识</Comment>
       <DataType>int(11)|0s</DataType>
@@ -1839,33 +2020,33 @@
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="400" parent="291" name="section_name">
+    <column id="430" parent="296" name="section_name">
       <Position>2</Position>
       <Comment>部门名称</Comment>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="401" parent="291" name="level">
+    <column id="431" parent="296" name="level">
       <Position>3</Position>
       <Comment>所属等级</Comment>
       <DataType>int(4)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="402" parent="291" name="parent_id">
+    <column id="432" parent="296" name="parent_id">
       <Position>4</Position>
       <Comment>上层部门ID</Comment>
       <DataType>int(4)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="403" parent="291" name="PRIMARY">
+    <key id="433" parent="296" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>section_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="404" parent="292" name="tag_id">
+    <column id="434" parent="297" name="tag_id">
       <Position>1</Position>
       <Comment>测试用例的id</Comment>
       <DataType>int(11)|0s</DataType>
@@ -1873,33 +2054,33 @@
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="405" parent="292" name="tag_name">
+    <column id="435" parent="297" name="tag_name">
       <Position>2</Position>
       <Comment>测试用例名称</Comment>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="406" parent="292" name="case_id">
+    <column id="436" parent="297" name="case_id">
       <Position>3</Position>
       <Comment>测试用例ID</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="407" parent="292" name="suite_id">
+    <column id="437" parent="297" name="suite_id">
       <Position>4</Position>
       <Comment>测试套件ID</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="408" parent="292" name="PRIMARY">
+    <key id="438" parent="297" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>tag_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="409" parent="293" name="user_id">
+    <column id="439" parent="298" name="user_id">
       <Position>1</Position>
       <Comment>用户ID唯一标识</Comment>
       <DataType>int(11)|0s</DataType>
@@ -1907,93 +2088,60 @@
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="410" parent="293" name="user_name">
+    <column id="440" parent="298" name="user_name">
       <Position>2</Position>
       <Comment>用户名</Comment>
       <DataType>varchar(100)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="411" parent="293" name="user_phone">
+    <column id="441" parent="298" name="user_phone">
       <Position>3</Position>
       <Comment>用户手机号</Comment>
       <DataType>varchar(20)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="412" parent="293" name="user_mail">
+    <column id="442" parent="298" name="user_mail">
       <Position>4</Position>
       <Comment>用户邮箱</Comment>
       <DataType>varchar(200)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="413" parent="293" name="user_head">
+    <column id="443" parent="298" name="user_head">
       <Position>5</Position>
       <DataType>text|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="414" parent="293" name="section_id">
+    <column id="444" parent="298" name="section_id">
       <Position>6</Position>
       <Comment>所属部门ID</Comment>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="415" parent="293" name="PRIMARY">
+    <key id="445" parent="298" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>user_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="416" parent="294" name="user_id">
+    <column id="446" parent="299" name="user_id">
       <Position>1</Position>
       <Comment>用户唯一标识</Comment>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="417" parent="294" name="user_password">
+    <column id="447" parent="299" name="user_password">
       <Position>2</Position>
       <Comment>用户密码</Comment>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="418" parent="294" name="PRIMARY">
+    <key id="448" parent="299" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>user_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="419" parent="294" name="user_password_ibfk_1">
-      <ColNames>user_id</ColNames>
-      <RefSchemaName>pocket_test_db</RefSchemaName>
-      <RefTableName>user_info</RefTableName>
-      <RefColNames>user_id</RefColNames>
-      <OnUpdate>cascade</OnUpdate>
-      <OnDelete>cascade</OnDelete>
-    </foreign-key>
-    <column id="420" parent="295" name="user_id">
-      <Position>1</Position>
-      <Comment>用户唯一标识ID</Comment>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="421" parent="295" name="user_role">
-      <Position>2</Position>
-      <Comment>用户角色</Comment>
-      <DataType>varchar(50)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="422" parent="295" name="user_permission">
-      <Position>3</Position>
-      <Comment>用户权限</Comment>
-      <DataType>varchar(1000)|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <key id="423" parent="295" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>user_id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <foreign-key id="424" parent="295" name="user_role_ibfk">
+    <foreign-key id="449" parent="299" name="user_password_ibfk_1">
       <ColNames>user_id</ColNames>
       <RefSchemaName>pocket_test_db</RefSchemaName>
       <RefTableName>user_info</RefTableName>

@@ -51,7 +51,7 @@ public interface SectionInfoDao {
      * 查询最高层部门信息
      * @return
      */
-    public SectionTree findFirstSection();
+    public SectionTree queryDeptTreeList();
 
 //    public List<SectionTree> queryFullSectionById(int section_id);
 

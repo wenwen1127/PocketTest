@@ -38,7 +38,6 @@
     <resultMap id="sectionResult" type="com.pkt.Entity.Section.SectionTree">
         <id column="section_id" property="sectionId"/>
         <result column="section_name" property="sectionName"/>
-
         <collection property="sectionTreeList" ofType="com.pkt.Entity.Section.SectionTree" column="section_id" select="queryAllSections" javaType="java.util.ArrayList"/>
     </resultMap>
 
@@ -48,7 +47,7 @@
         <!--<collection property="sectionTreeList" ofType="com.pkt.Entity.Section.SectionTree" column="parent_id" select="queryFullSectionById" javaType="java.convert.ArrayList"/>-->
     <!--</resultMap>-->
 
-    <select id="findFirstSection" resultMap="sectionResult">
+    <select id="queryDeptTreeList" resultMap="sectionResult">
         select section_id, section_name
         from section_info
         where parent_id = 0

@@ -149,6 +149,59 @@ INSERT INTO `Test_project` VALUES (1, '测试项目一', '/User/mac/Project1', 2
 INSERT INTO `Test_project` VALUES (2, '测试项目二', '/User/mac/Project2', 1, 3, 2, 2, '2019-03-25','2019-04-21');
 INSERT INTO `Test_project` VALUES (3, '测试项目三', '/User/mac/Project3', 4, 2, 1, 1, '2019-04-19','2019-05-04');
 
+-- ---------------------------------
+-- Table structure for Test_plan
+-- ---------------------------------
+DROP TABLE IF EXISTS `Test_plan`;
+CREATE TABLE `Test_plan` (
+                              `testplan_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '测试计划的id',
+                              `file_path` varchar(200) NOT NULL COMMENT '测试计划文件路径',
+                              `testproject_id` int(11) NOT NULL  COMMENT '测试项目的id',
+                              primary key (testplan_id)
+)ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+-- ------------------------
+-- Records of Test_plan
+-- ------------------------
+INSERT INTO `Test_plan` VALUES (1,'/User/mac/Project1', 2);
+INSERT INTO `Test_plan` VALUES (2, '/User/mac/Project2', 1);
+INSERT INTO `Test_plan` VALUES (3, '/User/mac/Project3', 4);
+
+-- ---------------------------------
+-- Table structure for Test_point
+-- ---------------------------------
+DROP TABLE IF EXISTS `Test_point`;
+CREATE TABLE `Test_point` (
+                           `testpoint_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '测试点的id',
+                           `testpoint_name` varchar(50) NOT NULL COMMENT '测试点名称',
+                           `testpoint_content` varchar(50) NOT NULL COMMENT '测试点内容',
+                           `level` int(4) NOT NULL COMMENT '测试点等级',
+                           `testplan_id` int(11) NOT NULL  COMMENT '测试计划的id',
+                           primary key (testpoint_id)
+)ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+-- ------------------------
+-- Records of Test_point
+-- ------------------------
+INSERT INTO `Test_point` VALUES (1, '测试点1','测试xx',1, 2);
+INSERT INTO `Test_point` VALUES (2, '测试点2','测试xx',2, 1);
+INSERT INTO `Test_point` VALUES (3, '测试点3','测试xx',3, 3);
+
+-- ---------------------------------
+-- Table structure for Suite_TestPoint
+-- ---------------------------------
+DROP TABLE IF EXISTS `Suite_TestPoint`;
+CREATE TABLE `Suite_TestPoint` (
+                            `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+                            `testpoint_id` int(11) NOT NULL  COMMENT '测试点的id',
+                            `suite_id` int(11) NOT NULL  COMMENT '测试套件的id',
+                            primary key (id)
+)ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+-- ------------------------
+-- Records of Suite_TestPoint
+-- ------------------------
+INSERT INTO `Suite_TestPoint` VALUES (1, 1, 2);
+INSERT INTO `Suite_TestPoint` VALUES (2, 2, 1);
+INSERT INTO `Suite_TestPoint` VALUES (3, 3, 3);
+
 
 -- ---------------------------------
 -- Table structure for Test_Module
@@ -333,7 +386,17 @@ CREATE TABLE `run_case_info` (
                            PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-
+DROP TABLE IF EXISTS `run_suite_info`;
+CREATE TABLE `run_suite_info` (
+                               `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '唯一标识',
+                               `suite_id` int(11) NOT NULL COMMENT '套件ID',
+                               `user_id` int(11) NOT NULL COMMENT '测试人员ID',
+                               `section_id` int(11) NOT NULL COMMENT '部门ID',
+                               `suite_result` varchar(20) NOT NULL COMMENT '用例结果',
+                               `suite_start_date` varchar(50) NOT NULL COMMENT '用例执行开始时间',
+                               `suite_end_date` varchar(50) NOT NULL COMMENT '用例执行结束时间',
+                               PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
 

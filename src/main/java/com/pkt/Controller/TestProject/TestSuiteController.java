@@ -306,7 +306,7 @@ public class TestSuiteController {
 
     @RequestMapping("/batchdelete")
     @ResponseBody
-    public ModelAndView batchDelteTestProject(HttpServletRequest request) {
+    public ModelAndView batchDelteTestSuite(HttpServletRequest request) {
         Map<String, Object> params = handler.getParams(request);
         ModelAndView res = new ModelAndView();
         res.addObject("params", params);

@@ -31,12 +31,12 @@ public class SectionInfoService {
         return sectionInfoDao.editSection(params);
     }
 
-    public List<SectionTree> querysubsection(int section_id){
-        return sectionInfoDao.queryAllSections(section_id);
-    }
+//    public List<SectionTree> querysubsection(int section_id){
+//        return sectionInfoDao.queryAllSections(section_id);
+//    }
 
     public SectionTree findFirstSection(){
-        return sectionInfoDao.findFirstSection();
+        return sectionInfoDao.queryDeptTreeList();
     }
 
     public List<Map<String, Object>> queryLeafSections(){

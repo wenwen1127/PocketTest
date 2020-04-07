@@ -114,11 +114,12 @@ public class SectionController {
 
     @RequestMapping("/querysectionList")
     @ResponseBody
-    public Map querySubSectionById(HttpServletRequest request) {
+    public Map querySubSectionTree(HttpServletRequest request) {
         Map<String, Object> params = handler.getParams(request);
         try {
 //            int section_id = Integer.valueOf(params.get("section_id").toString());
             SectionTree root_section = sectionInfoService.findFirstSection();
+            System.out.println("root_section: " + root_section);
             Map resultMap = handler.getSectionTree(root_section);
             List resultList = new ArrayList();
             resultList.add(resultMap);
