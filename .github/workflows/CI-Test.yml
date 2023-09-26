@@ -1,6 +1,6 @@
 name: CI Test
 
-on: 
+on:
   push:
     branches:
       - master
@@ -22,7 +22,7 @@ on:
         options:
           - No
           - Yes
-
+permissions: write-all
 
 jobs:
   Explore-GitHub-Actions:
